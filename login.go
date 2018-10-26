@@ -1,17 +1,42 @@
 package main
 
 import(
-  //"golang.org/x/crypto/bcrypt"
+  "golang.org/x/crypto/bcrypt"
   _ "github.com/mattn/go-sqlite3"
-  //"database/sql"
+  "database/sql"
+  "log"
   )
 
 func login(username string, password string) (int, error){
   return 1, nil;
 }
 
-func createUser(username string, password string, adminLevel string) (int, error){
-  return 1, nil;
+func createUser(username string, password string, adminLevel int) (int, error){
+  saltAndHashed, erro := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
+  strSalt := string(saltAndHashed)
+  if erro != nil {
+    log.Println(erro)
+  }
+  db, err := sql.Open("sqlite3", "database.db")
+  if err != nil {
+    return 0, err
+  }
+  defer db.Close()
+  tx, err := db.Begin()
+  if err != nil {
+    return 0, err
+  }
+  stmt, err := tx.Prepare("INSERT INTO users values(?, ?, ?)")
+  if err != nil {
+    return 0, err
+  }
+  defer stmt.Close()
+  _, err = stmt.Exec(username, strSalt, adminLevel)
+  if err != nil {
+    return 0, err
+  }
+  tx.Commit()
+  return 1, nil
 }
 
 func changePassword(username string, newPassword string, oldPassword string) (int, error){
