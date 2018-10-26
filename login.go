@@ -21,7 +21,6 @@ func createUser(username string, password string, adminLevel int) (int, error){
   if err != nil {
     return 0, err
   }
-  defer db.Close()
   tx, err := db.Begin()
   if err != nil {
     return 0, err
@@ -30,12 +29,12 @@ func createUser(username string, password string, adminLevel int) (int, error){
   if err != nil {
     return 0, err
   }
-  defer stmt.Close()
   _, err = stmt.Exec(username, strSalt, adminLevel)
   if err != nil {
     return 0, err
   }
   tx.Commit()
+  db.Close()
   return 1, nil
 }
 
