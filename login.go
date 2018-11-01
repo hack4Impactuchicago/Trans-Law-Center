@@ -5,6 +5,7 @@ import(
   _ "github.com/mattn/go-sqlite3"
   "database/sql"
   "log"
+  "fmt"
   )
 
 func login(username string, password string) (int, error){
@@ -57,6 +58,11 @@ func createUser(username string, password string, adminLevel int) (int, error){
   if err != nil {
     return 0, err
   }
+  row := db.QueryRow("SELECT * FROM Users WHERE Username=?", username)
+  if row != nil {
+    fmt.Println("Username Already Exists")
+    return 0, err
+  }
   tx, err := db.Begin()
   if err != nil {
     return 0, err
@@ -89,7 +95,12 @@ func changePassword(username string, newPassword string, oldPassword string) (in
   }
   var password string
   row.Scan(&password)
-  if(password != oldPassword){
+
+  hashedPwd := []byte(password)
+  bytePlainPwd := []byte(oldPassword)
+  err = bcrypt.CompareHashAndPassword(hashedPwd, bytePlainPwd)
+
+  if(err != nil){
     fmt.Println("passwords not equal")
     db.Close()
     return 0,nil
@@ -100,7 +111,9 @@ func changePassword(username string, newPassword string, oldPassword string) (in
       db.Close()
       return 0,nil
     }
-    statement.Exec(newPassword,username)
+    saltAndHashed, _ := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.MinCost)
+    strSalt := string(saltAndHashed)
+    statement.Exec(strSalt,username)
   }
   db.Close()
   return 1, nil;
