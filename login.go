@@ -24,9 +24,11 @@ func login(username string, password string) (int, error){
       // username does not exist
       log.Println("Username does not exist")
       log.Println(err)
+      db.Close()
       return 0, err
     case err != nil:
       log.Println(err)
+      db.Close()
       return 0, err
   }
 
@@ -38,8 +40,10 @@ func login(username string, password string) (int, error){
     log.Println("Wrong password")
     log.Println(err)
     // wrong password
+    db.Close()
     return 0, nil
   }
+  db.Close()
   return 1, nil;
 }
 
