@@ -15,7 +15,9 @@ func main() {
   } else {
     fmt.Println("Login failed or error occurred")
   }
-  
+  changePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
+  loginSuccess, _ = login("jliu08", "hellomynameisnotjames")
+
   http.HandleFunc("/", handler)
   http.ListenAndServe(":8080", nil)
 }

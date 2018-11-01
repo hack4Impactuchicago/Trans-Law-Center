@@ -5,6 +5,7 @@ import(
   _ "github.com/mattn/go-sqlite3"
   "database/sql"
   "log"
+  "fmt"
   )
 
 func login(username string, password string) (int, error){
@@ -55,6 +56,11 @@ func createUser(username string, password string, adminLevel int) (int, error){
   }
   db, err := sql.Open("sqlite3", "database.db")
   if err != nil {
+    return 0, err
+  }
+  row := db.QueryRow("SELECT * FROM Users WHERE Username=?", username)
+  if row != nil {
+    fmt.Println("Username Already Exists")
     return 0, err
   }
   tx, err := db.Begin()
