@@ -8,6 +8,38 @@ import(
   )
 
 func login(username string, password string) (int, error){
+  db, err := sql.Open("sqlite3", "database.db")
+  if err != nil {
+    log.Println(err)
+    return 0, err
+  }
+
+  row := db.QueryRow("SELECT Password FROM Users WHERE Username=?", username)
+
+  var hashedPwd string
+  err = row.Scan(&hashedPwd)
+
+  switch {
+    case err == sql.ErrNoRows:
+      // username does not exist
+      log.Println("Username does not exist")
+      log.Println(err)
+      return 0, err
+    case err != nil:
+      log.Println(err)
+      return 0, err
+  }
+
+  byteHash := []byte(hashedPwd)
+  bytePlainPwd := []byte(password)
+
+  err = bcrypt.CompareHashAndPassword(byteHash, bytePlainPwd)
+  if err != nil {
+    log.Println("Wrong password")
+    log.Println(err)
+    // wrong password
+    return 0, nil
+  }
   return 1, nil;
 }
 
