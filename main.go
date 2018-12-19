@@ -3,21 +3,28 @@ package main
 import (
   "net/http"
   "fmt"
+  "Trans-Law-Center/assets"
 )
 
 func main() {
-  createUser("jliu08", "hellomynameisjames", 2)
-  // test login function
+  // Login Testing
 
-  loginSuccess, _ := login("jliu09", "hellomynameisnotjames")
+  assets.createUser("jliu08", "hellomynameisjames", 2)
+  
+  loginSuccess, _ := assets.login("jliu09", "hellomynameisnotjames")
   if loginSuccess == 1 {
     fmt.Println("Login succeeded")
   } else {
     fmt.Println("Login failed or error occurred")
   }
-  changePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
-  loginSuccess, _ = login("jliu08", "hellomynameisnotjames")
+  assets.changePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
+  loginSuccess, _ = assets.login("jliu08", "hellomynameisnotjames")
 
   http.HandleFunc("/", handler)
   http.ListenAndServe(":8080", nil)
+
+  // Dummy response testing
+
+
+
 }
