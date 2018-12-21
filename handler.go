@@ -38,21 +38,39 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
 
         /*
 
-        DB Table:
+        DB Question Table:
 
         _____________________________________
-        |    Q1     |    Q2     |     Q3    |
+        |    Q1     |    Q2     |     Q3    | ...
         _____________________________________
-        |     A1a   |     A2a   |     A3a   |
-        |     A1b   |     A2b   |     A3b   |
-        |     A1c   |     A2c   |     A3c   |
-        |     A1d   |     A2d   |     A3d   |
+        |     A1a   |     A2a   |     A3a   | ...
+        |     A1b   |     A2b   |     A3b   | ...
+        |     A1c   |     A2c   |     A3c   | ...
+        |     A1d   |     A2d   |     A3d   | ..
               ...         ...         ...
 
         */
 
+        // Process the information from the questions into a unique qid-answer pair
+        // This can be done by essentially keeping track of all possible answers for each question
+        // This can be a mutable data structure / a database table, but NOT sure which would work better
 
-        // Render applicable output page data based on form input
+        /*
+
+        DB Response Table:
+
+        _____________________________________
+        |    R1ID   |    R2ID   |    R3ID   |
+        _____________________________________
+        |  R1struct |  R2struct |  R3struct |
+
+        Struct form should be of:
+
+
+        */
+
+
+        // Render applicable output page data based on form input based on struct
 
         assets.setOutput()
 
