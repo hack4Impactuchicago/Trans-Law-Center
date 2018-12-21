@@ -10,7 +10,7 @@ func main() {
   // Login Testing
 
   assets.createUser("jliu08", "hellomynameisjames", 2)
-  
+
   loginSuccess, _ := assets.login("jliu09", "hellomynameisnotjames")
   if loginSuccess == 1 {
     fmt.Println("Login succeeded")
@@ -24,7 +24,6 @@ func main() {
   http.ListenAndServe(":8080", nil)
 
   // Dummy response testing
-
 
 
 }
