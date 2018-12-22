@@ -20,13 +20,14 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
          http.ServeFile(writer, request, "/html/home.html")
     case "POST":
         // Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
-        err := r.ParseForm();
+        err := request.ParseForm();
         if err != nil {
             fmt.Println(err)
             return
         }
-        // r.Form contains the data from the form based on value keys
-        // r.PostForm contains the data as a whole
+        // request.Form contains the data from the form based on value keys
+
+        // request.PostForm contains the data as a whole
 
         // Do stuff with the post data
 
