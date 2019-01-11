@@ -34,7 +34,7 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
         }
 
         for key, value := range request.Form {
-
+            
         }
 
         /*Do stuff with the post data - that is, the processed post data which should be split into
