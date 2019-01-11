@@ -8,7 +8,7 @@ import(
   "fmt"
   )
 
-func login(username string, password string) (int, error){
+func Login(username string, password string) (int, error){
   db, err := sql.Open("sqlite3", "database.db")
   if err != nil {
     log.Println(err)
@@ -48,7 +48,7 @@ func login(username string, password string) (int, error){
   return 1, nil;
 }
 
-func createUser(username string, password string, adminLevel int) (int, error){
+func CreateUser(username string, password string, adminLevel int) (int, error){
   saltAndHashed, erro := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
   strSalt := string(saltAndHashed)
   if erro != nil {
@@ -80,8 +80,8 @@ func createUser(username string, password string, adminLevel int) (int, error){
   return 1, nil
 }
 
-func changePassword(username string, newPassword string, oldPassword string) (int, error){
-  db, err := sql.Open("sqlite3", "./database.db")
+func ChangePassword(username string, newPassword string, oldPassword string) (int, error){
+  db, err := sql.Open("sqlite3", "database.db")
     if(err != nil){
       fmt.Println("error after open")
       return 0,nil
