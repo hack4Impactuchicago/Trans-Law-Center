@@ -1,21 +1,20 @@
 package assets
 
 import(
-  "fmt"
   "net/http"
   "html/template"
-  "golang.org/x/crypto/bcrypt"
-  "github.com/mattn/go-sqlite3"
-  "database/sql"
-  "log"
+  // "golang.org/x/crypto/bcrypt"
+  // "github.com/mattn/go-sqlite3"
+  // "database/sql"
+  // "log"
   "fmt"
 )
 
-fun formLoader()
+//fun formLoader()
 
 //from form input, handlers the user answers to render the corresponding linked content
-func formHandler(writer http.ResponseWriter, request *http.Request) {
-    t, err := template.ParseFiles("/html/home.html")
+func FormHandler(writer http.ResponseWriter, request *http.Request) {
+    _, err := template.ParseFiles("/html/home.html")
 
     if err != nil {
       fmt.Println(err)
@@ -32,10 +31,11 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
             fmt.Println(err)
             return
         }
-
+        /*
         for key, value := range request.Form {
-            
+
         }
+        */
 
         /*Do stuff with the post data - that is, the processed post data which should be split into
           - question text: the question being asked / id representing the question - these should theoretically be the column ids
@@ -52,7 +52,7 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
         // This can be a mutable data structure / a database table, but NOT sure which would work better
         // Render applicable output page data based on form input based on struct
 
-        assets.setOutput()
+        // assets.setOutput()
 
 
 
@@ -61,7 +61,7 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
     }
 }
 
-func handler(w http.ResponseWriter, req *http.Request){
+func Handler(w http.ResponseWriter, req *http.Request){
   t, err := template.New("home.html").ParseFiles("html/home.html")
   if err != nil {
     fmt.Println(err)
