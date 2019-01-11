@@ -28,6 +28,10 @@ func formHandler(writer http.ResponseWriter, request *http.Request) {
         // request.Form contains the data from the form based on value keys
         // request.PostForm contains the data as a whole
 
+        for key, value := range request.Form {
+
+        }
+
         /*Do stuff with the post data - that is, the processed post data which should be split into
           - question text: the question being asked / id representing the question - these should theoretically be the column ids
           - question answer: the id / content that the user answered with [for radio, value; for checkbox, listof ID, etc]
