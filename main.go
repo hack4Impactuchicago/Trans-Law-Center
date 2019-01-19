@@ -7,25 +7,28 @@ import (
 )
 
 func main() {
-/*
-  // Login Testing
-  assets.CreateUser("jliu08", "hellomynameisjames", 2)
+    assets.SetupFormDB("formdb.db")
+    assets.SetupLoginDB("database.db")
 
-  loginSuccess, _ := assets.Login("jliu08", "hellomynameisjames")
-  if loginSuccess == 1 {
+    // Login Testing
+    assets.CreateUser("jliu08", "hellomynameisjames", 2)
+
+    loginSuccess, _ := assets.Login("jliu08", "hellomynameisjames")
+    if loginSuccess == 1 {
     fmt.Println("Login succeeded")
-  } else {
+    } else {
     fmt.Println("Login failed or error occurred")
-  }
-  // assets.ChangePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
-  // loginSuccess, _ = assets.Login("jliu08", "hellomynameisnotjames")
-  */
-  fmt.Println("Loading server on :8080")
+    }
+    // assets.ChangePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
+    // loginSuccess, _ = assets.Login("jliu08", "hellomynameisnotjames")
 
-  http.HandleFunc("/", assets.Handler)
-  http.ListenAndServe(":8080", nil)
 
-  // Dummy response testing
+    fmt.Println("Loading server on :8080")
+
+    http.HandleFunc("/", assets.Handler)
+    http.ListenAndServe(":8080", nil)
+
+    // Dummy response testing
 
 
 }
