@@ -1,13 +1,21 @@
 body {
-  background-color: cornsilk;
+  background-color: white;
 }
 h1 {
   color: black;
 }
 p {
   color:black;
+  padding: 1px 10px;
 }
 
+form{
+  padding: 10px 10px;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  border-color:orangered;
+  border-style: solid;
+}
 input[type=button], input[type=submit] {
   background-color: darkorange;
   border: none;
