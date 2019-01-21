@@ -1,0 +1,25 @@
+body {
+  background-color: cornsilk;
+}
+h1 {
+  color: black;
+}
+p {
+  color:black;
+}
+
+input[type=button], input[type=submit] {
+  background-color: darkorange;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-rendering: optimizeLegibility;
+    font-size: 20px;
+  margin: 50px 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+input[type=button], input[type=submit]:hover{
+   background-color: gray;
+}
