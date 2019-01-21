@@ -5,6 +5,7 @@ import(
     _ "github.com/mattn/go-sqlite3"
     "fmt"
     "log"
+    "Trans-Law-Center/defns"
 )
 
 func CreateTable(db *sql.DB, table_type string) (error) {
@@ -12,7 +13,6 @@ func CreateTable(db *sql.DB, table_type string) (error) {
     var sql_table string
 
     // find a way to specify a unique key for each table
-
     switch table_type {
     case "Questions":
         sql_table = `
@@ -34,7 +34,8 @@ func CreateTable(db *sql.DB, table_type string) (error) {
     case "Links":
         sql_table = `
             CREATE TABLE IF NOT EXISTS Links(
-                Id INT
+                Id INT,
+                Url TEXT
             )
         `
     case "Users":
@@ -127,4 +128,44 @@ func SetupFormDB(db_path string) (error) {
 
     db.Close()
     return nil
+}
+
+func AllRows(db_path string, table_type string) (*Rows, error){
+
+  db, err := sql.Open("sqlite3", db_path)
+  if err != nil {
+    log.Println(err)
+    return nil, err
+  }
+
+  switch table_type {
+  case condition:
+    "Questions":
+      command = `
+        SELECT * FROM Questions
+      `
+    "Answers":
+      command = `
+        SELECT * FROM Answers
+      `
+    "Links":
+      command = `
+        SELECT * FROM Links
+      `
+    "Users":
+      command = `
+        SELECT * FROM Users
+      `
+  }
+
+  rows, err := db.Query(command)
+  if err != nil {
+    log.Println(err)
+    db.Close()
+    return nil, err
+  } else {
+    db.Close()
+    return rows, nil
+  }
+
 }

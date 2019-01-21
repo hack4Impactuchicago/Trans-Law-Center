@@ -9,25 +9,35 @@
   <link rel="import" href="form.html" id="templates">
 
   <!--scripts-->
-  <script src="jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
 
-  <script type="text/javascript">
-    $(document).ready(function(e) {
-      $('#form').load('form.html');
-      $('#links').load('links.html');
-    });
-  </script>
+  <h1>{{.Title}}</h1>
 
-  <h1>Transgender Law Center</h1>
+  <div>
+    <form method="POST" action="../assets">
+        <label>Question1: Are you seeking a name change, gender change, or both?</label>
 
-  {{if .Helped}}
-    <div id="links"></div>
-  {{else}}
-    <div id="form"></div>
-  {{end}}
+        <input type="radio" name="change" value="name"> Name<br>
+        <input type="radio" name="change" value="gender"> Female<br>
+        <input type="radio" name="change" value="both"> Both
+
+        <label>Question2: Are you over or under 18 years old?</label>
+
+        <input type="radio" name="age" value="under"> Under 18<br>
+        <input type="radio" name="age" value="over"> Over 18<br>
+
+        <label>Question3: If under 18, does minor have 2 living parents who can sign, 1 parent who can sign, or no one who can sign?</label>
+
+        <input type="radio" name="signparents" value="two">Two parents<br>
+        <input type="radio" name="signparents" value="one">One parents<br>
+        <input type="radio" name="signparents" value="zero">Zero parents<br>
+
+        <input name="name" type="text" value="" />
+        <input type="submit" value="submit" />
+    </form>
+  </div>
 
 </body>
 </html>
