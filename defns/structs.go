@@ -15,6 +15,7 @@ type ResponsePage struct {
 //View Page Structs
 type Answer struct{
   AID integer
+  QuestionID integer
   Type string
   Text string
 }
@@ -24,7 +25,7 @@ type Question struct{
   OrderID integer
   Type string
   Text string
-  Answers *Answer
+  Answers []Answer
 }
 
 type ViewPage struct {

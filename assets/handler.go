@@ -10,11 +10,44 @@ import(
 )
 
 func loadViewPage()(*ViewPage, error){
-  rows, err := AllRows("formdb.db", "Questions")
+  rowsQ, errQ := AllRows("formdb.db", "Questions")
+  rowsA, errA := AllRows("formdb.db", "Answers")
+
   if err != nil {
     return nil, err
-  } else {
-    
+  }
+  defer rows.Close()
+
+  var Questions []Question
+
+  for rowsQ.Next() { //for each row within the datatable
+    if err := rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
+    	log.Fatal(err)
+    }else{
+      rowsA, errA := db.Query(`SELECT * from Answers where QuestionId=?`,qid)
+      if errA != nil {
+        log.Println(errA)
+        db.Close()
+        return nil, errA
+      } else {
+        db.Close()
+      }
+
+      var AnsList []Answer
+
+      rowsA, err := AllRows("formdb.db", "Answers")
+      for rowsA.Next(){
+        if err := rowsA.Scan(&qid, &orderID, &typeQ, &textQ, &AnsList); err != nil {
+        	log.Fatal(err)
+        }else{
+          AnsList = append(AnsList, &qid, )
+        }
+      }
+
+      Questions = append(Questions,
+        Question{QID: qid, OrderID: orderID, Type: typeQ, Text: textQ, Answers: nil})
+    }
+
   }
 }
 
