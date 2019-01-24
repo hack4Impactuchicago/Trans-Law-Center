@@ -12,7 +12,7 @@ import(
 func loadViewPage()(*ViewPage, error){
   rowsQ, errQ := AllRows("formdb.db", "Questions")
   rowsA, errA := AllRows("formdb.db", "Answers")
-
+T
   if err != nil {
     return nil, err
   }
@@ -24,6 +24,7 @@ func loadViewPage()(*ViewPage, error){
     if err := rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
     	log.Fatal(err)
     }else{
+
       rowsA, errA := db.Query(`SELECT * from Answers where QuestionId=?`,qid)
       if errA != nil {
         log.Println(errA)
@@ -37,15 +38,24 @@ func loadViewPage()(*ViewPage, error){
 
       rowsA, err := AllRows("formdb.db", "Answers")
       for rowsA.Next(){
-        if err := rowsA.Scan(&qid, &orderID, &typeQ, &textQ, &AnsList); err != nil {
+        if err := rowsA.Scan(&aid, &qid, &name, &textQ); err != nil {
         	log.Fatal(err)
         }else{
-          AnsList = append(AnsList, &qid, )
+          AnsList = append(AnsList,
+            Answer{AID: aid, QuestionID: qid, Name: name, Text: textQ})
         }
       }
 
+      //TODO: Look into how slices are stored in Memory
+
       Questions = append(Questions,
-        Question{QID: qid, OrderID: orderID, Type: typeQ, Text: textQ, Answers: nil})
+        Question{
+          QID: qid,
+          OrderID: orderID,
+          Type: typeQ,
+          Text: textQ,
+          Answers: AnsList}
+        )
     }
 
   }

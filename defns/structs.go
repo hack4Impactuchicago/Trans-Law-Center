@@ -16,7 +16,7 @@ type ResponsePage struct {
 type Answer struct{
   AID integer
   QuestionID integer
-  Type string
+  Name string
   Text string
 }
 

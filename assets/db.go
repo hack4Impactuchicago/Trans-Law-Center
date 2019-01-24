@@ -28,7 +28,7 @@ func CreateTable(db *sql.DB, table_type string) (error) {
             CREATE TABLE IF NOT EXISTS Answers(
                 Id INT,
                 QuestionId INT,
-                Type TEXT,
+                Name TEXT,
                 Text TEXT
             );
         `
