@@ -36,7 +36,8 @@ func CreateTable(db *sql.DB, table_type string) (error) {
         sql_table = `
             CREATE TABLE IF NOT EXISTS Links(
                 Id INT,
-                Url TEXT
+                Url TEXT,
+                Description TEXT
             )
         `
     case "Users":

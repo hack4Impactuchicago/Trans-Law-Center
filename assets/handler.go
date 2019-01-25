@@ -12,17 +12,15 @@ import(
 func loadViewPage()(*ViewPage, error){
   rowsQ, errQ := AllRows("formdb.db", "Questions")
   rowsA, errA := AllRows("formdb.db", "Answers")
-T
   if err != nil {
     return nil, err
   }
   defer rows.Close()
-
   var Questions []Question
 
   for rowsQ.Next() { //for each row within the datatable
     if err := rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
-    	log.Fatal(err)
+    	return nil, err
     }else{
 
       rowsA, errA := db.Query(`SELECT * from Answers where QuestionId=?`,qid)
@@ -35,11 +33,10 @@ T
       }
 
       var AnsList []Answer
-
       rowsA, err := AllRows("formdb.db", "Answers")
       for rowsA.Next(){
         if err := rowsA.Scan(&aid, &qid, &name, &textQ); err != nil {
-        	log.Fatal(err)
+        	return nil, err
         }else{
           AnsList = append(AnsList,
             Answer{AID: aid, QuestionID: qid, Name: name, Text: textQ})
@@ -47,31 +44,38 @@ T
       }
 
       //TODO: Look into how slices are stored in Memory
-
       Questions = append(Questions,
         Question{
           QID: qid,
           OrderID: orderID,
           Type: typeQ,
           Text: textQ,
-          Answers: AnsList}
-        )
+          Answers: AnsList
+        })
     }
+  }
+  //return the constructed page
+  return ViewPage{Questions: Questions}
+}
 
+func loadResponsePage(r *http.Request)(*ResponsePage, error){
+  if err := r.ParseForm(); err != nil {
+    return nil, err
+  }
+  for key, values := range r.PostForm {
+    
   }
 }
 
-func loadResponsePage()(*ResponsePage, error){
-
-}
-
 func ViewHandler(w http.ResponseWriter, r *http.Request){
-  p, _ := loadViewPage()
+  p, errload := loadViewPage()
   t, _ := template.ParseFiles("/html/home.html")
-  t.Execute(w, p)
+  if err := t.Execute(w, p); err != nil{
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+  }
 }
 
 func ResultsHandler(w http.ResponseWriter, r *http.Request) {
-  p, _ := loadPage()
-  fmt.Fprintf(w, "This is the results page.")
+  p, _ := loadResponsePage(r)
+
 }

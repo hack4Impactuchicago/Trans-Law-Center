@@ -9,7 +9,7 @@ type Link struct{
 type ResponsePage struct {
   Title string
   Description string
-	Links *Link
+	Links []Link
 }
 
 //View Page Structs
@@ -29,7 +29,7 @@ type Question struct{
 }
 
 type ViewPage struct {
-  Title string
-  Description string
-	Questions *Question
+  //Title string
+  //Description string
+	Questions []Question
 }

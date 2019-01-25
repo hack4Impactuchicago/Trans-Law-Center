@@ -26,12 +26,13 @@ func main() {
 
 
     //FOR Testing STATIC Pages.
-    fmt.Println("Loading server on :8080")
-    fs := http.FileServer(http.Dir("html"))
-    http.Handle("/", fs)
+    // fmt.Println("Loading server on :8080")
+    // fs := http.FileServer(http.Dir("html"))
+    // http.Handle("/", fs)
 
     // http.HandleFunc("/", assets.ViewHandler)
     // http.HandleFunc("/results/", assets.ResultsHandler)
+    // http.HandleFunc("/admin/, assets.SecureHandler")
 
     err := http.ListenAndServe(":8080", nil)
     if err != nil {
