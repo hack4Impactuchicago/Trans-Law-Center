@@ -9,8 +9,9 @@ import(
   "Trans-Law-Center/defns"
 )
 
+//function for loading the content for the form from the DB
 func loadViewPage()(*ViewPage, error){
-  rowsQ, errQ := AllRows("formdb.db", "Questions")
+  rowsQ, errQ := AllRows("formdb.db", "Questions") //Load all rows within DB
 
   if err != nil {
     return nil, err
@@ -60,7 +61,7 @@ func loadViewPage()(*ViewPage, error){
     }
   }
   //return the constructed page
-  return ViewPage{Questions: Questions}
+  return *ViewPage{Questions: Questions}
 }
 
 func loadResponsePage(r *http.Request)(*ResponsePage, error){
@@ -106,31 +107,31 @@ func loadResponsePage(r *http.Request)(*ResponsePage, error){
     if err := rows.Scan(&id, &url, &description, &type); err != nil {
       return nil, err
     }else{
-
+      LinksList = append(LinksList,
+        Link{URL:url, Description: description, type: type})
     }
   }
-
-
+  return *ResponsePage{Links: LinksList}
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request){
-  if p, errload := loadViewPage(); errload != nil{
+  if *p, errload := loadViewPage(); errload != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
   }
 
   t, _ := template.ParseFiles("/html/home.html")
-  if err := t.Execute(w, p); err != nil{
+  if err := t.Execute(w, *p); err != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
   }
 }
 
 func ResultsHandler(w http.ResponseWriter, r *http.Request) {
-  if p, errload := loadResponsePage(r); errload != nil{
+  if *p, errload := loadResponsePage(r); errload != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
   }
 
   t, _ := template.ParseFiles("/html/links.html")
-  if err := t.Execute(w, p); err != nil{
+  if err := t.Execute(w, *p); err != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
   }
 }

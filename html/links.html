@@ -12,20 +12,42 @@
 
   <div>
     <div class="description">
+      
     </div>
     <div class="forms-by-hand">
+      {{range .Links}}
+        {{if eq .type "hand"}}
+      {{end}}
     </div>
     <div class="forms-online-hand">
+      {{range .Links}}
+        {{if eq .type "online"}}
+      {{end}}
     </div>
     <div class="forms-individual">
+      {{range .Links}}
+        {{if eq .type "individual"}}
+      {{end}}
     </div>
     <div class="fee-waiver">
+      {{range .Links}}
+        {{if eq .type "waiver"}}
+      {{end}}
     </div>
     <div class="accommodations">
+      {{range .Links}}
+        {{if eq .type "accomm"}}
+      {{end}}
     </div>
     <div class="supreme-court">
+      {{range .Links}}
+        {{if eq .type "court"}}
+      {{end}}
     </div>
     <div class="instructions">
+      {{range .Links}}
+        {{if eq .type "instructions"}}
+      {{end}}
     </div>
   </div>
 
