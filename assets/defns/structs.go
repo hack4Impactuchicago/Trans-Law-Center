@@ -4,7 +4,7 @@ package defns
 type Link struct{
   URL string
   Description string
-  type string
+  Type string
 }
 
 type ResponsePage struct {
@@ -15,15 +15,15 @@ type ResponsePage struct {
 
 //View Page Structs
 type Answer struct{
-  AID integer
-  QuestionID integer
+  AID int
+  QuestionID int
   Name string
   Text string
 }
 
 type Question struct{
-  QID integer
-  OrderID integer
+  QID int
+  OrderID int
   Type string
   Text string
   Answers []Answer

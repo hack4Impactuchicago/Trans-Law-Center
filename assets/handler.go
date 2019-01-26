@@ -3,28 +3,32 @@ package assets
 import(
   "net/http"
   "html/template"
-  "fmt"
+  //"fmt"
   "database/sql"
   "log"
   "Trans-Law-Center/assets/defns"
 )
 
 //function for loading the content for the form from the DB
-func loadViewPage()(*ViewPage, error){
+func loadViewPage()(*defns.ViewPage, error){
   rowsQ, errQ := AllRows("formdb.db", "Questions") //Load all rows within DB
 
-  if err != nil {
-    return nil, err
+  if errQ != nil {
+    return nil, errQ
   }
-  defer rows.Close()
-  var Questions []Question
+  defer rowsQ.Close()
+  var Questions []defns.Question
 
   for rowsQ.Next() { //for each row within the datatable
+
+    var qid, orderID int
+    var typeQ, textQ string
+
     if err := rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
     	return nil, err
-    }else{
+    } else {
 
-      var AnsList []Answer
+      var AnsList []defns.Answer
 
       db, errO := sql.Open("sqlite3", "formdb.db")
       if errO != nil {
@@ -41,27 +45,32 @@ func loadViewPage()(*ViewPage, error){
       db.Close()
 
       for rowsA.Next(){
-        if err := rowsA.Scan(&aid, &qid, &name, &textQ); err != nil {
+
+        var aid, Qid int
+        var name, textQ string
+
+        if err := rowsA.Scan(&aid, &Qid, &name, &textQ); err != nil {
         	return nil, err
         }else{
           AnsList = append(AnsList,
-            Answer{AID: aid, QuestionID: qid, Name: name, Text: textQ})
+            defns.Answer{AID: aid, QuestionID: qid, Name: name, Text: textQ})
         }
       }
 
       //TODO: Look into how slices are stored in Memory
       Questions = append(Questions,
-        Question{
+        defns.Question{
           QID: qid,
           OrderID: orderID,
           Type: typeQ,
           Text: textQ,
-          Answers: AnsList
-        })
+          Answers: AnsList})
     }
   }
   //return the constructed page
-  return *ViewPage{Questions: Questions}
+  page := defns.ViewPage{Questions: Questions}
+
+  return *page, nil
 }
 
 func loadResponsePage(r *http.Request)(*ResponsePage, error){
@@ -104,14 +113,15 @@ func loadResponsePage(r *http.Request)(*ResponsePage, error){
   var LinksList []Link
 
   for rows.Next(){
-    if err := rows.Scan(&id, &url, &description, &type); err != nil {
+    err1 := rows.Scan(&id, &url, &description, &Type);
+    if err1 != nil {
       return nil, err
-    }else{
+    } else {
       LinksList = append(LinksList,
-        Link{URL:url, Description: description, type: type})
+        defns.Link{URL:url, Description: description, Type: Type})
     }
   }
-  return *ResponsePage{Links: LinksList}
+  return *defns.ResponsePage{Links: LinksList}
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request){

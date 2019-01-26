@@ -5,17 +5,12 @@ import(
     _ "github.com/mattn/go-sqlite3"
     "fmt"
     "log"
-    "Trans-Law-Center/assets/defns"
+    //"Trans-Law-Center/assets/defns"
 )
 
 //REMOVE later - for testing purposes only
 // I know this code is disgusting
-func FillTestQuestions()(error){
 
-  db, err := sql.Open("sqlite3", "formdb.db")
-
-
-}
 
 func CreateTable(db *sql.DB, table_type string) (error) {
     // create table if not exists
@@ -142,7 +137,7 @@ func SetupFormDB(db_path string) (error) {
     return nil
 }
 
-func AllRows(db_path string, table_type string) (*Rows, error){
+func AllRows(db_path string, table_type string) (*sql.Rows, error){
 
   db, err := sql.Open("sqlite3", db_path)
   if err != nil {
@@ -150,21 +145,22 @@ func AllRows(db_path string, table_type string) (*Rows, error){
     return nil, err
   }
 
+  var command string
+
   switch table_type {
-  case condition:
-    "Questions":
+  case "Questions":
       command = `
         SELECT * FROM Questions
       `
-    "Answers":
+  case "Answers":
       command = `
         SELECT * FROM Answers
       `
-    "Links":
+  case "Links":
       command = `
         SELECT * FROM Links
       `
-    "Users":
+  case "Users":
       command = `
         SELECT * FROM Users
       `

@@ -16,49 +16,49 @@
     </div>
     <div class="forms-by-hand">
       {{range .Links}}
-        {{if eq .type "hand"}}
+        {{if eq .Type "hand"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
     </div>
     <div class="forms-online-hand">
       {{range .Links}}
-        {{if eq .type "online"}}
+        {{if eq .Type "online"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
     </div>
     <div class="forms-individual">
       {{range .Links}}
-        {{if eq .type "individual"}}
+        {{if eq .Type "individual"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
     </div>
     <div class="fee-waiver">
       {{range .Links}}
-        {{if eq .type "waiver"}}
+        {{if eq .Type "waiver"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
     </div>
     <div class="accommodations">
       {{range .Links}}
-        {{if eq .type "accomm"}}
+        {{if eq .Type "accomm"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
     </div>
     <div class="supreme-court">
       {{range .Links}}
-        {{if eq .type "court"}}
+        {{if eq .Type "court"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
     </div>
     <div class="instructions">
       {{range .Links}}
-        {{if eq .type "instructions"}}
+        {{if eq .Type "instructions"}}
         <a href={{.URL}}>{{.Description}}</a>
         {{end}}
       {{end}}
