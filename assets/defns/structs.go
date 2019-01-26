@@ -3,12 +3,12 @@ package defns
 //Response Page Structs
 type Link struct{
   URL string
+  Description string
   type string
 }
 
 type ResponsePage struct {
   Title string
-  Description string
 	Links []Link
 }
 
