@@ -5,8 +5,17 @@ import(
     _ "github.com/mattn/go-sqlite3"
     "fmt"
     "log"
-    "Trans-Law-Center/defns"
+    "Trans-Law-Center/assets/defns"
 )
+
+//REMOVE later - for testing purposes only
+// I know this code is disgusting
+func FillTestQuestions()(error){
+
+  db, err := sql.Open("sqlite3", "formdb.db")
+
+
+}
 
 func CreateTable(db *sql.DB, table_type string) (error) {
     // create table if not exists

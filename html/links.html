@@ -12,41 +12,55 @@
 
   <div>
     <div class="description">
-      
+
     </div>
     <div class="forms-by-hand">
       {{range .Links}}
         {{if eq .type "hand"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
     <div class="forms-online-hand">
       {{range .Links}}
         {{if eq .type "online"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
     <div class="forms-individual">
       {{range .Links}}
         {{if eq .type "individual"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
     <div class="fee-waiver">
       {{range .Links}}
         {{if eq .type "waiver"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
     <div class="accommodations">
       {{range .Links}}
         {{if eq .type "accomm"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
     <div class="supreme-court">
       {{range .Links}}
         {{if eq .type "court"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
     <div class="instructions">
       {{range .Links}}
         {{if eq .type "instructions"}}
+        <a href={{.URL}}>{{.Description}}</a>
+        {{end}}
       {{end}}
     </div>
   </div>

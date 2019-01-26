@@ -8,6 +8,8 @@ type Link struct{
 }
 
 type ResponsePage struct {
+  //Title string
+  //Description string
 	Links []Link
 }
 

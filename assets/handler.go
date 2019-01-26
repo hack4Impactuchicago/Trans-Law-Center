@@ -6,7 +6,7 @@ import(
   "fmt"
   "database/sql"
   "log"
-  "Trans-Law-Center/defns"
+  "Trans-Law-Center/assets/defns"
 )
 
 //function for loading the content for the form from the DB
