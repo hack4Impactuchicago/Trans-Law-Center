@@ -1,11 +1,13 @@
 package assets
 
 import(
-  "hash/fnv"
+  "crypto/sha1"
+  "encoding/hex"
 )
 
-func hash_function(s string) int{
-        h := fnv.New32a()
-        result = h.Write([]byte(s))
-        return result
+func hash_function(s string) string{
+  h := sha1.New()
+  h.Write([]byte(s))
+  result := hex.EncodeToString(h.Sum(nil))
+  return result
 }

@@ -3,7 +3,7 @@ package assets
 import(
   "net/http"
   "html/template"
-  //"fmt"
+  "strconv"
   "database/sql"
   "log"
   "Trans-Law-Center/assets/defns"
@@ -69,12 +69,11 @@ func loadViewPage()(*defns.ViewPage, error){
   }
   //return the constructed page
   page := defns.ViewPage{Questions: Questions}
-
-  return *page, nil
+  return &page, nil
 }
 
-func loadResponsePage(r *http.Request)(*ResponsePage, error){
-  if err := r.ParseMultipartForm(); err != nil {
+func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
+  if err := r.ParseForm(); err != nil {
     return nil, err
   }
 
@@ -86,33 +85,41 @@ func loadResponsePage(r *http.Request)(*ResponsePage, error){
 
   var unhashed_key string
 
-  for key, values := range r.MultipartForm {
-    row, errA := db.Query(
-      `SELECT * from Answers where QuestionId=? AND Id=?`,
-      key,
-      value)
-    if errA != nil {
-      log.Println(errA)
-      db.Close()
-      return nil, errA
-    }
+  for key, values := range r.Form {   // range over map
+    for _, value := range values {    // range over []string
+      row, errA := db.Query(
+        `SELECT * from Answers where QuestionId=? AND Id=?`,
+        key,
+        value)
+      if errA != nil {
+        log.Println(errA)
+        db.Close()
+        return nil, errA
+      }
 
-    if err := row.Scan(&aid, &qid, &name, &textQ); err != nil {
-      return nil, err
-    }else{
-      unhashed_key += aid
+      var aid, qid int
+      var name, textQ string
+
+      if err := row.Scan(&aid, &qid, &name, &textQ); err != nil {
+        return nil, err
+      }else{
+        unhashed_key += strconv.Itoa(aid)
+      }
     }
   }
 
+  var hashed_key string
   hashed_key = hash_function(unhashed_key)
   db.Close()
 
   rows, err := db.Query(
     `SELECT * from Links where Id=?`,hashed_key)
 
-  var LinksList []Link
-
+  var LinksList []defns.Link
   for rows.Next(){
+    var id int
+    var url, description, Type string
+
     err1 := rows.Scan(&id, &url, &description, &Type);
     if err1 != nil {
       return nil, err
@@ -121,12 +128,13 @@ func loadResponsePage(r *http.Request)(*ResponsePage, error){
         defns.Link{URL:url, Description: description, Type: Type})
     }
   }
-  return *defns.ResponsePage{Links: LinksList}
+  return &defns.ResponsePage{Links: LinksList}, nil
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request){
-  if *p, errload := loadViewPage(); errload != nil{
-    http.Error(w, err.Error(), http.StatusInternalServerError)
+  p, errload := loadViewPage()
+  if errload != nil{
+    http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
 
   t, _ := template.ParseFiles("/html/home.html")
@@ -136,8 +144,9 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func ResultsHandler(w http.ResponseWriter, r *http.Request) {
-  if *p, errload := loadResponsePage(r); errload != nil{
-    http.Error(w, err.Error(), http.StatusInternalServerError)
+  p, errload := loadResponsePage(r);
+  if errload != nil{
+    http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
 
   t, _ := template.ParseFiles("/html/links.html")

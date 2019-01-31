@@ -12,7 +12,7 @@ func main() {
     assets.SetupFormDB("formdb.db")
     assets.SetupLoginDB("database.db")
 
-    FOR Login Testing
+    //FOR Login Testing
     assets.CreateUser("jliu08", "hellomynameisjames", 2)
 
     loginSuccess, _ := assets.Login("jliu08", "hellomynameisjames")
