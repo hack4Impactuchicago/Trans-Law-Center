@@ -6,7 +6,7 @@ import(
   "strconv"
   "database/sql"
   "log"
-  //"fmt"
+  "fmt"
   "Trans-Law-Center/assets/defns"
 )
 
@@ -149,13 +149,14 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func ResultsHandler(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("entering results handler")
   p, errload := loadResponsePage(r);
   if errload != nil{
     //fmt.Printf(errload.Error())
     //http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
 
-  t, _ := template.ParseFiles("/html/links.html")
+  t, _ := template.ParseFiles("html/links.html")
   if err := t.Execute(w, p); err != nil{
     //fmt.Printf(err.Error())
     //http.Error(w, err.Error(), http.StatusInternalServerError)
