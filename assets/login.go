@@ -1,4 +1,4 @@
-package main
+package assets
 
 import(
   "golang.org/x/crypto/bcrypt"
@@ -8,7 +8,7 @@ import(
   "fmt"
   )
 
-func login(username string, password string) (int, error){
+func Login(username string, password string) (int, error){
   db, err := sql.Open("sqlite3", "database.db")
   if err != nil {
     log.Println(err)
@@ -48,7 +48,7 @@ func login(username string, password string) (int, error){
   return 1, nil;
 }
 
-func createUser(username string, password string, adminLevel int) (int, error){
+func CreateUser(username string, password string, adminLevel int) (int, error){
   saltAndHashed, erro := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
   strSalt := string(saltAndHashed)
   if erro != nil {
@@ -58,21 +58,35 @@ func createUser(username string, password string, adminLevel int) (int, error){
   if err != nil {
     return 0, err
   }
+
+  // Check for existing username
   row := db.QueryRow("SELECT * FROM Users WHERE Username=?", username)
-  if row != nil {
+
+  var u, p string
+  var al int
+  scanerr := row.Scan(&u, &p, &al)
+
+  if scanerr == nil {
     fmt.Println("Username Already Exists")
+    db.Close()
     return 0, err
   }
+  // finish checking for username
+
   tx, err := db.Begin()
   if err != nil {
+    db.Close()
     return 0, err
   }
-  stmt, err := tx.Prepare("INSERT INTO users values(?, ?, ?)")
+
+  stmt, err := tx.Prepare("INSERT INTO Users values(?, ?, ?)")
   if err != nil {
+    db.Close()
     return 0, err
   }
   _, err = stmt.Exec(username, strSalt, adminLevel)
   if err != nil {
+    db.Close()
     return 0, err
   }
   tx.Commit()
@@ -80,13 +94,13 @@ func createUser(username string, password string, adminLevel int) (int, error){
   return 1, nil
 }
 
-func changePassword(username string, newPassword string, oldPassword string) (int, error){
-  db, err := sql.Open("sqlite3", "./database.db")
+func ChangePassword(username string, newPassword string, oldPassword string) (int, error){
+  db, err := sql.Open("sqlite3", "database.db")
     if(err != nil){
       fmt.Println("error after open")
       return 0,nil
     }
-  sqlStatement := `SELECT Password FROM users WHERE username=$1;`
+  sqlStatement := `SELECT Password FROM Users WHERE username=$1;`
   row := db.QueryRow(sqlStatement,username)
   if(row == nil){
     fmt.Println("error after query")
@@ -105,7 +119,7 @@ func changePassword(username string, newPassword string, oldPassword string) (in
     db.Close()
     return 0,nil
   } else {
-    statement, err := db.Prepare("UPDATE users SET Password=? WHERE Username=?")
+    statement, err := db.Prepare("UPDATE Users SET Password=? WHERE Username=?")
     if(err != nil){
       fmt.Println("error after prepare")
       db.Close()
