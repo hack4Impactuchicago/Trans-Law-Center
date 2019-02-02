@@ -79,42 +79,69 @@ func loadViewPage()(*defns.ViewPage, error){
 }
 
 func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
+
+  temp_page := defns.ResponsePage{Links: nil}
+
+  if r == nil {
+    fmt.Println("Not able to parse Form")
+    return &temp_page, nil
+  }
+
   if err := r.ParseForm(); err != nil {
-    return nil, err
+    fmt.Println("Not able to parse Form")
+    return &temp_page, err
   }
 
   db, err := sql.Open("sqlite3", "formdb.db")
   if err != nil {
-    return nil, err
+    return &temp_page, err
   }
 
   var unhashed_key string
 
-  for key, values := range r.Form {   // range over map
+  for key, values := range r.Form {  // range over map
+
+    fmt.Println(key)
+    fmt.Println(values)
+
     for _, value := range values {    // range over []string
+
+      fmt.Println(value)
+
       row, errA := db.Query(
         `SELECT * from Answers where QuestionId=? AND Id=?`,
         key,
         value)
       if errA != nil {
         db.Close()
-        return nil, errA
+        return &temp_page, errA
       }
 
       var aid, qid int
       var name, textQ string
 
-      if err := row.Scan(&aid, &qid, &name, &textQ); err != nil {
-        return nil, err
-      }else{
-        unhashed_key += strconv.Itoa(aid)
+      for row.Next(){
+        err := row.Scan(&aid, &qid, &name, &textQ)
+        if err != nil {
+          return &temp_page, err
+        }else{
+          fmt.Printf("********* %d", aid)
+          unhashed_key = unhashed_key + strconv.Itoa(aid)
+        }
       }
+
     }
   }
+
 
   var hashed_key string
   hashed_key = hash_function(unhashed_key)
   db.Close()
+
+  fmt.Println(unhashed_key)
+  fmt.Println(hashed_key)
+
+  //da39a3ee5e6b4b0d3255bfef95601890afd80709
 
   rows, err := db.Query(
     `SELECT * from Links where Id=?`,hashed_key)
@@ -126,13 +153,14 @@ func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
 
     err1 := rows.Scan(&id, &url, &description, &Type);
     if err1 != nil {
-      return nil, err
+      return &temp_page, err
     } else {
       LinksList = append(LinksList,
         defns.Link{URL:url, Description: description, Type: Type})
     }
   }
-  return &defns.ResponsePage{Links: LinksList}, nil
+  page := defns.ResponsePage{Links: LinksList}
+  return &page, nil
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request){
@@ -148,7 +176,6 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func ResultsHandler(w http.ResponseWriter, r *http.Request) {
-  fmt.Println("entering results handler")
   p, errload := loadResponsePage(r);
   if errload != nil{
     //fmt.Printf(errload.Error())

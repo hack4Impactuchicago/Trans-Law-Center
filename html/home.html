@@ -12,18 +12,18 @@
 <body>
 
   <div>
-    <form method="POST" action="../results/" enctype="multipart/form-data">
+    <form method="POST" action="../results/">
 
         <!-- Assuming only 3 types of questions -->
         {{range .Questions}}
         <label>{{.Text}}</label>
           {{if eq .Type "radio"}}
             {{range .Answers}}
-              <input type="radio" name='{{.QuestionID}}'>{{.Text}}
+              <input type="radio" name='{{.QuestionID}}' value='{{.AID}}'>{{.Text}}
             {{end}}
           {{else if eq .Type "checkbox"}}
             {{range .Answers}}
-              <input type="checkbox" name={{.QuestionID}}>{{.Text}}
+              <input type="checkbox" name={{.QuestionID}} value='{{.AID}}'>{{.Text}}
             {{end}}
           {{else if eq .Type "select"}}
           <select>

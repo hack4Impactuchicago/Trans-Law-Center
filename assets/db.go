@@ -45,7 +45,7 @@ func LoadPresetDBContent(db_path string)(error){
       )
       VALUES (
         '2',
-        '3',
+        '2',
         'radio',
         'Question 2'
       );
@@ -82,6 +82,22 @@ func LoadPresetDBContent(db_path string)(error){
         'Answer 1 to Question 2'
       );
     `
+  var insert_statement_5 string
+  key := hash_function("11")
+  insert_statement_5 = `
+      INSERT INTO Links (
+        Id,
+        Url,
+        Description,
+        Type
+      )
+      VALUES (
+        ?,
+        'https://stackoverflow.com/questions/5952718/how-to-easily-test-posts-when-making-a-website',
+        'fuck this',
+        'online'
+      );
+    `
 
   _, err = db.Exec(insert_statement_1)
   if err != nil {
@@ -102,6 +118,25 @@ func LoadPresetDBContent(db_path string)(error){
   if err != nil {
       return err
   }
+
+  tx, err := db.Begin()
+  if err != nil {
+    db.Close()
+    return err
+  }
+
+  stmt, err := tx.Prepare(insert_statement_5)
+  if err != nil {
+    db.Close()
+    return err
+  }
+  _, err = stmt.Exec(key)
+  if err != nil {
+    db.Close()
+    return err
+  }
+  tx.Commit()
+  db.Close()
 
   fmt.Println("Initialized TEST Database Tables.")
   return nil
