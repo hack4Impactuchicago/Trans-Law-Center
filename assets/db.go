@@ -11,6 +11,102 @@ import(
 //REMOVE later - for testing purposes only
 // I know this code is disgusting
 
+func LoadPresetDBContent(db_path string)(error){
+
+  db, err := sql.Open("sqlite3", db_path)
+  if err != nil {
+    log.Println(err)
+    return err
+  }
+
+  var insert_statement_1 string
+  insert_statement_1 = `
+      INSERT INTO Questions (
+        Id,
+        DispOrder,
+        Type,
+        Text
+      )
+      VALUES (
+        '1',
+        '1',
+        'radio',
+        'Question 1'
+      );
+    `
+
+  var insert_statement_2 string
+  insert_statement_2 = `
+      INSERT INTO Questions (
+        Id,
+        DispOrder,
+        Type,
+        Text
+      )
+      VALUES (
+        '2',
+        '3',
+        'radio',
+        'Question 2'
+      );
+    `
+
+  var insert_statement_3 string
+  insert_statement_3 = `
+      INSERT INTO Answers (
+        Id,
+        QuestionId,
+        Name,
+        Text
+      )
+      VALUES (
+        '1',
+        '1',
+        'ans1',
+        'Answer 1 to Question 1'
+      );
+    `
+
+  var insert_statement_4 string
+  insert_statement_4 = `
+      INSERT INTO Answers (
+        Id,
+        QuestionId,
+        Name,
+        Text
+      )
+      VALUES (
+        '2',
+        '2',
+        'ans1',
+        'Answer 1 to Question 2'
+      );
+    `
+
+  _, err = db.Exec(insert_statement_1)
+  if err != nil {
+      return err
+  }
+
+  _, err = db.Exec(insert_statement_2)
+  if err != nil {
+      return err
+  }
+
+  _, err = db.Exec(insert_statement_3)
+  if err != nil {
+      return err
+  }
+
+  _, err = db.Exec(insert_statement_4)
+  if err != nil {
+      return err
+  }
+
+  fmt.Println("Initialized TEST Database Tables.")
+  return nil
+
+}
 
 func CreateTable(db *sql.DB, table_type string) (error) {
     // create table if not exists

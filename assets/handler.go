@@ -6,56 +6,61 @@ import(
   "strconv"
   "database/sql"
   "log"
+  //"fmt"
   "Trans-Law-Center/assets/defns"
 )
 
 //function for loading the content for the form from the DB
 func loadViewPage()(*defns.ViewPage, error){
-  rowsQ, errQ := AllRows("formdb.db", "Questions") //Load all rows within DB
+  // Loading all rows of Questions from DB
+  page := defns.ViewPage{Questions: nil}
 
-  if errQ != nil {
-    return nil, errQ
+  db, err := sql.Open("sqlite3", "formdb.db")
+  if err != nil {
+    return &page, err
   }
-  defer rowsQ.Close()
-  var Questions []defns.Question
 
+  rowsQ, err := db.Query(`SELECT * FROM Questions`)
+  if err != nil {
+    db.Close()
+    return &page, err
+  }
+
+  var Questions []defns.Question
   for rowsQ.Next() { //for each row within the datatable
 
     var qid, orderID int
     var typeQ, textQ string
-
-    if err := rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
-    	return nil, err
+    if err = rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
+      return &page, err
     } else {
-
+      //fmt.Printf("%d,%d,%s,%s",qid,orderID,typeQ,textQ)
       var AnsList []defns.Answer
-
-      db, errO := sql.Open("sqlite3", "formdb.db")
-      if errO != nil {
-        log.Println(errO)
-        return nil, errO
+      dbA, err := sql.Open("sqlite3", "formdb.db")
+      if err != nil {
+        return &page, err
       }
 
-      rowsA, errA := db.Query(`SELECT * from Answers where QuestionId=?`,qid)
+      rowsA, errA := dbA.Query(`SELECT * from Answers where QuestionId=?`,qid)
       if errA != nil {
-        log.Println(errA)
-        db.Close()
-        return nil, errA
+        dbA.Close()
+        return &page, errA
       }
-      db.Close()
 
       for rowsA.Next(){
 
         var aid, Qid int
         var name, textQ string
 
-        if err := rowsA.Scan(&aid, &Qid, &name, &textQ); err != nil {
-        	return nil, err
+        if err = rowsA.Scan(&aid, &Qid, &name, &textQ); err != nil {
+        	return &page, err
         }else{
           AnsList = append(AnsList,
             defns.Answer{AID: aid, QuestionID: qid, Name: name, Text: textQ})
         }
       }
+
+      dbA.Close()
 
       //TODO: Look into how slices are stored in Memory
       Questions = append(Questions,
@@ -67,8 +72,10 @@ func loadViewPage()(*defns.ViewPage, error){
           Answers: AnsList})
     }
   }
+
+  db.Close()
   //return the constructed page
-  page := defns.ViewPage{Questions: Questions}
+  page = defns.ViewPage{Questions: Questions}
   return &page, nil
 }
 
@@ -79,7 +86,6 @@ func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
 
   db, err := sql.Open("sqlite3", "formdb.db")
   if err != nil {
-    log.Println(err)
     return nil, err
   }
 
@@ -92,7 +98,6 @@ func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
         key,
         value)
       if errA != nil {
-        log.Println(errA)
         db.Close()
         return nil, errA
       }
@@ -137,7 +142,7 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
     http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
 
-  t, _ := template.ParseFiles("/html/home.html")
+  t, err := template.ParseFiles("html/home.html")
   if err := t.Execute(w, *p); err != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
   }
@@ -146,11 +151,13 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
 func ResultsHandler(w http.ResponseWriter, r *http.Request) {
   p, errload := loadResponsePage(r);
   if errload != nil{
-    http.Error(w, errload.Error(), http.StatusInternalServerError)
+    //fmt.Printf(errload.Error())
+    //http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
 
   t, _ := template.ParseFiles("/html/links.html")
-  if err := t.Execute(w, *p); err != nil{
-    http.Error(w, err.Error(), http.StatusInternalServerError)
+  if err := t.Execute(w, p); err != nil{
+    //fmt.Printf(err.Error())
+    //http.Error(w, err.Error(), http.StatusInternalServerError)
   }
 }

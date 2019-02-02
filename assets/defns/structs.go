@@ -8,8 +8,6 @@ type Link struct{
 }
 
 type ResponsePage struct {
-  //Title string
-  //Description string
 	Links []Link
 }
 
@@ -30,7 +28,5 @@ type Question struct{
 }
 
 type ViewPage struct {
-  //Title string
-  //Description string
 	Questions []Question
 }
