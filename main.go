@@ -31,7 +31,7 @@ func main() {
 
     err := assets.LoadPresetDBContent("formdb.db")
     if err != nil {
-      log.Fatal("LoadingPreset...: ", err)
+      log.Fatal("Loading Preset...: ", err)
     }
 
     http.HandleFunc("/", assets.ViewHandler)
