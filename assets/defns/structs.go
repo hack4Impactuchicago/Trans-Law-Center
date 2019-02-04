@@ -1,5 +1,11 @@
 package defns
 
+type Order struct {
+  Content int
+  Key int
+  Next *Order
+}
+
 //Response Page Structs
 type Link struct{
   URL string
