@@ -17,7 +17,7 @@ func CreateTable(db *sql.DB, table_type string) (error) {
     case "Questions":
         sql_table = `
             CREATE TABLE IF NOT EXISTS Questions(
-                Id INT,
+                Id TEXT,
                 DispOrder INT,
                 Type TEXT,
                 Text TEXT
@@ -26,8 +26,8 @@ func CreateTable(db *sql.DB, table_type string) (error) {
     case "Answers":
         sql_table = `
             CREATE TABLE IF NOT EXISTS Answers(
-                Id INT,
-                QuestionId INT,
+                Id TEXT,
+                QuestionId TEXT,
                 Name TEXT,
                 Text TEXT
             );
@@ -35,7 +35,7 @@ func CreateTable(db *sql.DB, table_type string) (error) {
     case "Links":
         sql_table = `
             CREATE TABLE IF NOT EXISTS Links(
-                Id STRING,
+                Id TEXT,
                 Url TEXT,
                 Description TEXT,
                 Type TEXT

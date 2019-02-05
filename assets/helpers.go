@@ -52,16 +52,18 @@ func generate_unhashed_id(r *http.Request)(*string, error){
   }
 
   fmt.Println(disporder_map)
+  fmt.Println(r.Form)
 
   i := 0
   for i <= len(disporder_map){
 
     key := disporder_map[i]
     values := r.Form[key]
-    fmt.Println(key)
+    fmt.Printf("Key: %s, s: %\n",key,values)
 
     for value := range values{    // range over []string
 
+      fmt.Printf("Key: %s, Value: %s\n",key,value)
       row, errA := db.Query(`SELECT * from Answers where QuestionId=? AND Name=?`,
         key,value)
       if errA != nil {
