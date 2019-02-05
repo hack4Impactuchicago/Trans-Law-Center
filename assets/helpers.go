@@ -5,9 +5,6 @@ import(
   "encoding/hex"
   "database/sql"
   "fmt"
-  "strconv"
-  "Trans-Law-Center/assets/defns"
-  "errors"
   "net/http"
 )
 
@@ -18,55 +15,26 @@ func hash_function(s string) string{
   return result
 }
 
-func length(list *defns.Order) (int){
-  i := 0
-  for list != nil {
-    i += 1
+func insert_map(disporder_map map[int]string, order int, key string)(map[int]string){
+  if _, exists := disporder_map[order]; exists {
+    return disporder_map
+  }else{
+    disporder_map[order] = key
+    return disporder_map
   }
-  return i
-}
-
-func insert_list(list *defns.Order, ind int, key int) (*defns.Order, error) {
-
-    new_ord := defns.Order{Content: ind, Key: key, Next: nil}
-    len_of := length(list)
-
-    if len_of > ind { return nil, errors.New("invalid Length") }
-    if list == nil{ return &new_ord, nil }
-
-    head := list
-    var prev *defns.Order
-    prev = nil
-
-    for list != nil {
-      if list.Content < ind {
-        if prev == nil{
-          new_ord.Next = list
-          head = list
-        } else {
-          prev.Next = &new_ord
-          new_ord.Next = list
-        }
-        break
-      }
-      prev = list
-      list = list.Next
-    }
-
-    return head, nil
 }
 
 func generate_unhashed_id(r *http.Request)(*string, error){
 
   if err := r.ParseForm(); err != nil {return nil, err}
+  disporder_map := map[int]string{}
 
   db, err := sql.Open("sqlite3", "formdb.db")
   if err != nil {return nil, err}
 
-  var order_list *defns.Order
-  order_list = nil
-
   var unhashed_key string
+  var disporder int
+
   for key, _ := range r.Form {  // range over map
 
     order, err := db.Query(`SELECT DispOrder from Questions where Id=?`,key)
@@ -78,39 +46,49 @@ func generate_unhashed_id(r *http.Request)(*string, error){
         db.Close()
         return nil, err
       }else{
-        order_list, err = insert_list(order_list, key, disporder)
-        if err != nil {return nil, err}
+        disporder_map = insert_map(disporder_map, disporder, key)
       }
     }
   }
 
-  for ordered_key := range order_list{
-    values := r.Form[ordered_key.Key]
+  fmt.Println(disporder_map)
+
+  i := 0
+  for i <= len(disporder_map){
+
+    key := disporder_map[i]
+    values := r.Form[key]
+    fmt.Println(key)
+
     for value := range values{    // range over []string
 
-      row, errA := db.Query(`SELECT * from Answers where QuestionId=? AND Id=?`,
+      row, errA := db.Query(`SELECT * from Answers where QuestionId=? AND Name=?`,
         key,value)
       if errA != nil {
         db.Close()
         return nil, errA
       }
 
-      var aid, qid int
-      var name, textQ string
+      var aid, qid, name, textQ string
 
       for row.Next(){
         err := row.Scan(&aid, &qid, &name, &textQ)
+        fmt.Printf("aid: %s",aid)
         if err != nil {
           db.Close()
           return nil, err
         }else{
-          unhashed_key = unhashed_key + strconv.Itoa(aid)
+          fmt.Printf("unhashed-key aid: %s",aid)
+          unhashed_key = unhashed_key + aid
         }
       }
     }
+
+    i += 1
   }
 
   db.Close()
+
   return &unhashed_key, nil
 
 }

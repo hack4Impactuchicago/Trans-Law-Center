@@ -18,8 +18,8 @@ func loadViewPage()(*defns.ViewPage, error){
   var Questions []defns.Question
   for rowsQ.Next() { //for each row within the datatable
 
-    var qid, orderID int
-    var typeQ, textQ string
+    var orderID int
+    var qid, typeQ, textQ string
 
     if err = rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
       return &page, err
@@ -32,8 +32,7 @@ func loadViewPage()(*defns.ViewPage, error){
 
       for rowsA.Next(){
 
-        var aid, Qid int
-        var name, textQ string
+        var aid, Qid, name, textQ string
 
         if err = rowsA.Scan(&aid, &Qid, &name, &textQ); err != nil {
         	return &page, err
@@ -76,8 +75,7 @@ func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
   var LinksList []defns.Link
   for rows.Next(){
 
-    var id int
-    var url, description, Type string
+    var id, url, description, Type string
 
     err1 := rows.Scan(&id, &url, &description, &Type);
 
