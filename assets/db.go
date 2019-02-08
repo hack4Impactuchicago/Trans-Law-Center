@@ -284,7 +284,7 @@ func LoadPresetDBContent(db_path string)(error){
   }
 
   var insert_statement_ten string
-  key := hash_function("q1ans1q2ans1q3ans1")
+  key := hash_function("q2ans1q1ans1q3ans1")
   insert_statement_ten = `
       INSERT INTO Links (Id,Url,Description,Type)
       VALUES (?,'https://stackoverflow.com/questions/5952718/how-to-easily-test-posts-when-making-a-website',

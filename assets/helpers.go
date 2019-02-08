@@ -4,7 +4,7 @@ import(
   "crypto/sha1"
   "encoding/hex"
   "database/sql"
-  "fmt"
+  //"fmt"
   "net/http"
 )
 
@@ -51,21 +51,18 @@ func generate_unhashed_id(r *http.Request)(*string, error){
     }
   }
 
-  fmt.Println(disporder_map)
-  fmt.Println(r.Form)
-
   i := 0
+  var values []string
+
   for i <= len(disporder_map){
 
     key := disporder_map[i]
-    values := r.Form[key]
-    fmt.Printf("Key: %s, s: %\n",key,values)
+    values = r.Form[key]
 
-    for value := range values{    // range over []string
+    for _, value := range values{    // range over []string
 
-      fmt.Printf("Key: %s, Value: %s\n",key,value)
-      row, errA := db.Query(`SELECT * from Answers where QuestionId=? AND Name=?`,
-        key,value)
+      rows, errA := db.Query(`SELECT * from Answers where Id=?`,value)
+
       if errA != nil {
         db.Close()
         return nil, errA
@@ -73,15 +70,15 @@ func generate_unhashed_id(r *http.Request)(*string, error){
 
       var aid, qid, name, textQ string
 
-      for row.Next(){
-        err := row.Scan(&aid, &qid, &name, &textQ)
-        fmt.Printf("aid: %s",aid)
+      for rows.Next(){
+        err := rows.Scan(&aid, &qid, &name, &textQ)
+        //fmt.Printf("aid: %s ",aid)
         if err != nil {
           db.Close()
           return nil, err
         }else{
-          fmt.Printf("unhashed-key aid: %s",aid)
           unhashed_key = unhashed_key + aid
+          //fmt.Printf("unhashed-key: %s",unhashed_key)
         }
       }
     }
@@ -90,7 +87,6 @@ func generate_unhashed_id(r *http.Request)(*string, error){
   }
 
   db.Close()
-
   return &unhashed_key, nil
 
 }

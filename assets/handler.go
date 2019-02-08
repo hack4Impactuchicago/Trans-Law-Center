@@ -1,6 +1,7 @@
 package assets
 
 import(
+  "fmt"
   "net/http"
   "html/template"
   "Trans-Law-Center/assets/defns"
@@ -69,6 +70,9 @@ func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
 
   var hashed_key string
   hashed_key = hash_function(*unhashed_key)
+
+  fmt.Println(hashed_key)
+
   rows, err := load_link_with_hash(hashed_key)
   if err != nil{return &temp_page, err}
 
