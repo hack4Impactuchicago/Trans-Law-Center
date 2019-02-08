@@ -1,70 +1,122 @@
 package assets
 
 import(
+  "fmt"
   "net/http"
   "html/template"
-  // "golang.org/x/crypto/bcrypt"
-  // "github.com/mattn/go-sqlite3"
-  // "database/sql"
-  // "log"
-  "fmt"
+  "Trans-Law-Center/assets/defns"
 )
 
-//fun formLoader()
+//function for loading the content for the form from the DB
+func loadViewPage()(*defns.ViewPage, error){
+  // Loading all rows of Questions from DB
 
-//from form input, handlers the user answers to render the corresponding linked content
-func FormHandler(writer http.ResponseWriter, request *http.Request) {
-    _, err := template.ParseFiles("/html/home.html")
+  page := defns.ViewPage{Questions: nil}
 
-    if err != nil {
-      fmt.Println(err)
-      return
-    }
+  rowsQ, err := load_question_rows()
+  if err != nil{return &page, err}
 
-    switch request.Method {
-    case "GET":
-         http.ServeFile(writer, request, "/html/home.html")
-    case "POST":
-        // Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
-        err := request.ParseForm();
-        if err != nil {
-            fmt.Println(err)
-            return
+  var Questions []defns.Question
+  for rowsQ.Next() { //for each row within the datatable
+
+    var orderID int
+    var qid, typeQ, textQ string
+
+    if err = rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
+      return &page, err
+    } else {
+
+      rowsA, err := load_answer_to_qid(qid)
+      if err != nil{return &page, err}
+
+      var AnsList []defns.Answer
+
+      for rowsA.Next(){
+
+        var aid, Qid, name, textQ string
+
+        if err = rowsA.Scan(&aid, &Qid, &name, &textQ); err != nil {
+        	return &page, err
+        }else{
+          AnsList = append(AnsList,
+            defns.Answer{AID: aid,
+              QuestionID: qid,
+              Name: name,
+              Text: textQ})
         }
-        /*
-        for key, value := range request.Form {
+      }
 
-        }
-        */
-
-        /*Do stuff with the post data - that is, the processed post data which should be split into
-          - question text: the question being asked / id representing the question - these should theoretically be the column ids
-          - question answer: the id / content that the user answered with [for radio, value; for checkbox, listof ID, etc]
-
-          - To get keys atm:
-          for key, value := range request.Form {}
-        */
-
-
-
-        // Process the information from the questions into a unique qid-answer pair
-        // This can be done by essentially keeping track of all possible answers for each question
-        // This can be a mutable data structure / a database table, but NOT sure which would work better
-        // Render applicable output page data based on form input based on struct
-
-        // assets.setOutput()
-
-
-
-    default:
-        return
+      //TODO: Look into how slices are stored in Memory
+      Questions = append(Questions,
+        defns.Question{
+          QID: qid,
+          OrderID: orderID,
+          Type: typeQ,
+          Text: textQ,
+          Answers: AnsList})
     }
+  }
+
+  //return the constructed page
+  page = defns.ViewPage{Questions: Questions}
+  return &page, nil
 }
 
-func Handler(w http.ResponseWriter, req *http.Request){
-  t, err := template.New("home.html").ParseFiles("html/home.html")
-  if err != nil {
-    fmt.Println(err)
+func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
+
+  temp_page := defns.ResponsePage{Links: nil}
+  unhashed_key, err := generate_unhashed_id(r)
+  if err != nil{return &temp_page, err}
+
+  var hashed_key string
+  hashed_key = hash_function(*unhashed_key)
+
+  fmt.Println(hashed_key)
+
+  rows, err := load_link_with_hash(hashed_key)
+  if err != nil{return &temp_page, err}
+
+  var LinksList []defns.Link
+  for rows.Next(){
+
+    var id, url, description, Type string
+
+    err1 := rows.Scan(&id, &url, &description, &Type);
+
+    if err1 != nil {
+      return &temp_page, err
+    } else {
+      LinksList = append(LinksList,
+        defns.Link{URL:url,
+          Description: description,
+          Type: Type})
+    }
   }
-  t.Execute(w, nil)
+
+  page := defns.ResponsePage{Links: LinksList}
+  return &page, nil
+}
+
+func ViewHandler(w http.ResponseWriter, r *http.Request){
+  p, errload := loadViewPage()
+  if errload != nil{
+    http.Error(w, errload.Error(), http.StatusInternalServerError)
+  }
+
+  t, _ := template.ParseFiles("html/home.html")
+  if err := t.Execute(w, *p); err != nil{
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+  }
+}
+
+func ResultsHandler(w http.ResponseWriter, r *http.Request) {
+  p, errload := loadResponsePage(r);
+  if errload != nil{
+    http.Error(w, errload.Error(), http.StatusInternalServerError)
+  }
+
+  t, _ := template.ParseFiles("html/links.html")
+  if err := t.Execute(w, p); err != nil{
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+  }
 }

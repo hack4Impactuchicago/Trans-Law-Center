@@ -3,31 +3,42 @@
 
 <head>
   <title>Transgender Law Center</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!--external files-->
-  <link rel="import" href="form.html" id="templates">
-
   <!--scripts-->
-  <script src="jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
 
-  <script type="text/javascript">
-    $(document).ready(function(e) {
-      $('#form').load('form.html');
-      $('#links').load('links.html');
-    });
-  </script>
+  <div>
+    <form method="POST" action="../results/">
 
-  <h1>Transgender Law Center</h1>
+        <!-- Assuming only 3 types of questions -->
+        {{range .Questions}}
+        <label>{{.Text}}</label>
+          {{if eq .Type "radio"}}
+            {{range .Answers}}
+              <input type="radio" name='{{.QuestionID}}' value='{{.AID}}'>{{.Text}}
+            {{end}}
+          {{else if eq .Type "checkbox"}}
+            {{range .Answers}}
+              <input type="checkbox" name={{.QuestionID}} value='{{.AID}}'>{{.Text}}
+            {{end}}
+          {{else if eq .Type "select"}}
+          <select>
+            {{range .Answers}}
+              <option>{{.Text}}</option>
+            {{end}}
+          </select>
+          {{end}}
+        {{end}}
 
-  {{if .Helped}}
-    <div id="links"></div>
-  {{else}}
-    <div id="form"></div>
-  {{end}}
+        <!-- Once done with questions, Add in the Submit button -->
+        <input type="submit">
+
+    </form>
+  </div>
 
 </body>
 </html>
