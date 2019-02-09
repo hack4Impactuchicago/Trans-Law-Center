@@ -1,4 +1,4 @@
-package assets
+package src
 
 import(
   "golang.org/x/crypto/bcrypt"

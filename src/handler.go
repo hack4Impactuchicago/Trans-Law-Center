@@ -1,10 +1,10 @@
-package assets
+package src
 
 import(
   "fmt"
   "net/http"
   "html/template"
-  "Trans-Law-Center/assets/defns"
+  "Trans-Law-Center/src/defns"
 )
 
 //function for loading the content for the form from the DB
