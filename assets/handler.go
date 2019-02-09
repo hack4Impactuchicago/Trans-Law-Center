@@ -5,7 +5,7 @@ import(
   "html/template"
   "strconv"
   "database/sql"
-  "log"
+  // "log"
   "fmt"
   "Trans-Law-Center/assets/defns"
 )
@@ -142,7 +142,7 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
     http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
 
-  t, err := template.ParseFiles("html/home.html")
+  t, _ := template.ParseFiles("html/home.html")
   if err := t.Execute(w, *p); err != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
   }
