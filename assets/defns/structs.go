@@ -13,14 +13,14 @@ type ResponsePage struct {
 
 //View Page Structs
 type Answer struct{
-  AID int
-  QuestionID int
+  AID string
+  QuestionID string
   Name string
   Text string
 }
 
 type Question struct{
-  QID int
+  QID string
   OrderID int
   Type string
   Text string
