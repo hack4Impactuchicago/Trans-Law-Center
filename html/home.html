@@ -4,9 +4,30 @@
 <head>
   <title>Transgender Law Center</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--external files-->
+  <link rel="import" href="form.html" id="templates">
+
+  <!--scripts-->
+  <script src="jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
-  <h1>Hello World!</h1>
+
+  <script type="text/javascript">
+    $(document).ready(function(e) {
+      $('#form').load('form.html');
+      $('#links').load('links.html');
+    });
+  </script>
+
+  <h1>Transgender Law Center</h1>
+
+  {{if .Helped}}
+    <div id="links"></div>
+  {{else}}
+    <div id="form"></div>
+  {{end}}
+
 </body>
 </html>

@@ -3,21 +3,32 @@ package main
 import (
   "net/http"
   "fmt"
+  "Trans-Law-Center/assets"
 )
 
 func main() {
-  createUser("jliu08", "hellomynameisjames", 2)
-  // test login function
+    assets.SetupFormDB("formdb.db")
+    assets.SetupLoginDB("database.db")
 
-  loginSuccess, _ := login("jliu09", "hellomynameisnotjames")
-  if loginSuccess == 1 {
+    // Login Testing
+    assets.CreateUser("jliu08", "hellomynameisjames", 2)
+
+    loginSuccess, _ := assets.Login("jliu08", "hellomynameisjames")
+    if loginSuccess == 1 {
     fmt.Println("Login succeeded")
-  } else {
+    } else {
     fmt.Println("Login failed or error occurred")
-  }
-  changePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
-  loginSuccess, _ = login("jliu08", "hellomynameisnotjames")
+    }
+    // assets.ChangePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
+    // loginSuccess, _ = assets.Login("jliu08", "hellomynameisnotjames")
 
-  http.HandleFunc("/", handler)
-  http.ListenAndServe(":8080", nil)
+
+    fmt.Println("Loading server on :8080")
+
+    http.HandleFunc("/", assets.Handler)
+    http.ListenAndServe(":8080", nil)
+
+    // Dummy response testing
+
+
 }
