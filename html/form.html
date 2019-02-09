@@ -4,6 +4,7 @@
         <title>Transgender Law Center</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="../css/form.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link
             href="https://fonts.googleapis.com/css?family=PT+Sans"
             rel="stylesheet"
@@ -14,6 +15,18 @@
             integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
             crossorigin="anonymous"
         />
+
+        <script>
+            $(document).ready(function() {
+                $('input[type="radio"]').click(function() {
+                    if ($(this).attr('id') == 'age0') {
+                        $('#page-main-form-group-3').css('display', 'grid');
+                    } else {
+                        $('#page-main-form-group-3').css('display', 'none');
+                    }
+                });
+            });
+        </script>
     </head>
 
     <body>
@@ -126,7 +139,10 @@
                         >
                     </div>
 
-                    <div class="page-main-form-group">
+                    <div
+                        class="page-main-form-group"
+                        id="page-main-form-group-2"
+                    >
                         <div class="page-main-form-group-question">
                             2) Is the person seeking a name and/or gender change
                             court order under 18 years old, or 18 or over?
@@ -142,7 +158,10 @@
                         <label for="age1">18 years old or over.</label>
                     </div>
 
-                    <div class="page-main-form-group">
+                    <div
+                        class="page-main-form-group"
+                        id="page-main-form-group-3"
+                    >
                         <div
                             class="page-main-form-group-question"
                             id="page-main-form-group-question"

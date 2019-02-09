@@ -91,6 +91,10 @@ body {
     align-content: start;
 }
 
+#page-main-form-group-3 {
+    display: none;
+}
+
 .page-main-form-group-question {
     grid-column: 1 / 3;
     grid-row: 1 / 2;
