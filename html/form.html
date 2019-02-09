@@ -18,10 +18,28 @@
 
         <script>
             $(document).ready(function() {
+                $('input[type="submit"]').click(function() {
+                    if (
+                        (
+                            $(this).attr('name') == 'change' &&
+                            $(this).attr('id') == 'age0' &&
+                            $(this).attr('name') == 'parent'
+                        ) ||
+                        (
+                            $(this).attr('name') == 'change' &&
+                            $(this).attr('id') == 'age1'
+                        )
+                    ) {
+                        $('#page-main-form-error').css('display', 'none');
+                    } else {
+                        $('#page-main-form-error').css('display', 'block');
+                    }
+                });
+
                 $('input[type="radio"]').click(function() {
                     if ($(this).attr('id') == 'age0') {
                         $('#page-main-form-group-3').css('display', 'grid');
-                    } else {
+                    } else if ($(this).attr('id') == 'age1') {
                         $('#page-main-form-group-3').css('display', 'none');
                     }
                 });
@@ -171,7 +189,7 @@
                         <input
                             type="radio"
                             id="parent0"
-                            name="bothlivingboth"
+                            name="parent"
                             value="bothlivingboth"
                         />
                         <label for="parent0"
@@ -181,7 +199,7 @@
                         <input
                             type="radio"
                             id="parent1"
-                            name="bothlivingone"
+                            name="parent"
                             value="bothlivingone"
                         />
                         <label for="parent1"
@@ -191,7 +209,7 @@
                         <input
                             type="radio"
                             id="parent2"
-                            name="none"
+                            name="parent"
                             value="none"
                         />
                         <label for="parent2"
@@ -201,7 +219,12 @@
                         >
                     </div>
 
-                    <input type="submit" value="SUBMIT FORM" />
+                    <div class="page-main-form-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Fill in all fields above.
+                    </div>
+
+                    <input type="submit" value="CONTINUE" />
                 </form>
             </div>
         </div>

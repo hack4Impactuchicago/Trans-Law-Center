@@ -1,12 +1,13 @@
 body {
     display: grid;
-    grid-template-columns: 18% auto 18%;
+    grid-template-columns: 1fr 4fr 1fr;
     font-family: 'PT Sans', sans-serif;
     color: hsl(0, 0%, 28%);
 }
 
 .page-content {
     grid-column: 2 / 3;
+    min-width: 750px;
 }
 
 .page-header {
@@ -109,7 +110,7 @@ body {
 }
 
 input[type='radio'] {
-    margin-left: 0.6rem;
+    margin-left: 0.75rem;
 }
 
 input[type='submit'] {
@@ -130,4 +131,44 @@ input[type='submit'] {
 
 input[type='submit']:hover {
     background-color: hsl(30, 70%, 50%);
+}
+
+.page-main-form-error {
+    display: none;
+    color: hsl(357, 82%, 39%);
+    font-weight: 700;
+    margin: 0rem 0.75rem;
+}
+
+/* Fix for button styling on iOS */
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+@media only screen and (max-width: 767px) {
+    body {
+        grid-template-columns: auto;
+        margin: 0 0.5rem;
+    }
+
+    .page-content {
+        grid-column: 1 / 2;
+        min-width: auto;
+    }
+
+    .page-header {
+        grid-template-columns: 50px auto;
+    }
+
+    .page-header-img {
+        background-image: url('../assets/tlc-m.jpg');
+        background-size: 50px;
+        background-position: left;
+        width: auto;
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+    }
 }
