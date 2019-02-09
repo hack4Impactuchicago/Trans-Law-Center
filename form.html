@@ -1,52 +1,186 @@
 <!DOCTYPE html>
 <html lang="en-us">
+    <head>
+        <title>Transgender Law Center</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="formstyles.css" />
+        <link
+            href="https://fonts.googleapis.com/css?family=PT+Sans"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+            crossorigin="anonymous"
+        />
+    </head>
 
-<head>
-  <title>Transgender Law Center</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="formstyles.css">
-</head>
+    <body>
+        <div class="page-content">
+            <div class="page-header">
+                <img
+                    class="page-header-img"
+                    src="assets/tlc.jpg"
+                    alt="Transgender Law Center"
+                />
+                <div class="page-header-buttons">
+                    <button class="page-header-btn" id="page-header-btn-signup">
+                        SIGN UP!
+                        <i class="fas fa-envelope"></i>
+                    </button>
+                    <button class="page-header-btn" id="page-header-btn-donate">
+                        DONATE
+                    </button>
+                </div>
+            </div>
 
-<body>
-  <h1> Form
-</h1>
-<p>Transgender Law Center (TLC) and Hack4Impact-UChicago have developed a tool to help you with the process of filling out court forms to petition for a legal name and/or gender change in California. Use this tool to access printable and fillable blank forms, step-by-step instructions for filling out the forms, and sample filled-out forms. Anyone currently living in California can use these forms and directions. <br>
-    </p>
-<p>
-For more information about the process of obtaining a name and/or gender change and updating your California and federal identification, please refer to TLC’s guide “ID Please!” available at <a href="https://transgenderlawcenter.org/resources/id/id-please">https://transgenderlawcenter.org/resources/id/id-please</a>. <br>
-</p>
-<p>
-    The information on this site should not be considered legal advice. This site provides you with legal information but does not seek to apply that information to your specific situation. <br>
-    </p>
-<p>
-If you have a question about your specific legal situation, feel free to contact Transgender Law Center’s Legal Information Helpline at <a href="www.transgenderlawcenter.org/legalinfo">www.transgenderlawcenter.org/legalinfo</a> and we’ll do our best to answer your question or point you to resources that may be helpful. <br>
-    </p>
-<p>
-Please answer a few questions so we can provide you with resources that will be most relevant to you. </p>
+            <div class="page-main">
+                <div class="page-title">
+                    Petition form for legal name and/or gender change
+                </div>
 
-<div>
-  <form method="POST" action="../assets">
-      <label>Question1: Are you seeking a name change, gender change, or both?</label> <br>
+                <div>
+                    Transgender Law Center (TLC) and Hack4Impact-UChicago have
+                    developed a tool to help you with the process of filling out
+                    court forms to petition for a legal name and/or gender
+                    change in California. Use this tool to access printable and
+                    fillable blank forms, step-by-step instructions for filling
+                    out the forms, and sample filled-out forms. Anyone currently
+                    living in California can use these forms and directions.
+                </div>
+                <div>
+                    For more information about the process of obtaining a name
+                    and/or gender change and updating your California and
+                    federal identification, please refer to TLC’s guide “ID
+                    Please!” available at
+                    <a
+                        href="https://transgenderlawcenter.org/resources/id/id-please"
+                        >https://transgenderlawcenter.org/resources/id/id-please</a
+                    >.
+                </div>
+                <div>
+                    The information on this site should not be considered legal
+                    advice. This site provides you with legal information but
+                    does not seek to apply that information to your specific
+                    situation.
+                </div>
+                <div>
+                    If you have a question about your specific legal situation,
+                    feel free to contact Transgender Law Center’s Legal
+                    Information Helpline at
+                    <a href="www.transgenderlawcenter.org/legalinfo"
+                        >www.transgenderlawcenter.org/legalinfo</a
+                    >
+                    and we’ll do our best to answer your question or point you
+                    to resources that may be helpful.
+                </div>
+                <div>
+                    Please answer a few questions so we can provide you with
+                    resources that will be most relevant to you.
+                </div>
 
-      <input type="radio" name="change" value="name"> I am seeking a name change<br>
-      <input type="radio" name="change" value="gender"> I am seeking a gender change<br>
-      <input type="radio" name="change" value="both"> Both <br>
+                <form class="page-main-form" method="POST" action="../assets">
+                    <div class="page-main-form-group">
+                        <div
+                            class="page-main-form-group-question"
+                            id="page-main-form-group-question-first"
+                        >
+                            1) Are you seeking a name change court order, a
+                            gender change court order, or a joint name and
+                            gender change court order?
+                        </div>
+                        <input
+                            type="radio"
+                            id="change0"
+                            name="change"
+                            value="name"
+                        />
+                        <label for="change0">I am seeking a name change.</label>
+                        <input
+                            type="radio"
+                            id="change1"
+                            name="change"
+                            value="gender"
+                        />
+                        <label for="change1"
+                            >I am seeking a gender change.</label
+                        >
+                        <input
+                            type="radio"
+                            id="change2"
+                            name="change"
+                            value="both"
+                        />
+                        <label for="change2"
+                            >A joint name and gender change court order.</label
+                        >
+                    </div>
 
-      <label>Question2: Are you over or under 18 years old?</label> <br>
+                    <div class="page-main-form-group">
+                        <div class="page-main-form-group-question">
+                            2) Is the person seeking a name and/or gender change
+                            court order under 18 years old, or 18 or over?
+                        </div>
+                        <input
+                            type="radio"
+                            id="age0"
+                            name="age"
+                            value="under"
+                        />
+                        <label for="age0">Under 18 years old.</label>
+                        <input
+                            type="radio"
+                            id="age1"
+                            name="age"
+                            value="over"
+                        />
+                        <label for="age1">18 years old or over.</label>
+                    </div>
 
-      <input type="radio" name="age" value="under"> Under 18<br>
-      <input type="radio" name="age" value="over"> Over 18<br>
+                    <div class="page-main-form-group">
+                        <div
+                            class="page-main-form-group-question"
+                            id="page-main-form-group-question"
+                        >
+                            3) Please select the situation that applies to you.
+                        </div>
+                        <input
+                            type="radio"
+                            id="parent0"
+                            name="bothlivingboth"
+                            value="bothlivingboth"
+                        />
+                        <label for="parent0"
+                            >The minor has two living parents and they can both
+                            sign the petition.</label
+                        >
+                        <input
+                            type="radio"
+                            id="parent1"
+                            name="bothlivingone"
+                            value="bothlivingone"
+                        />
+                        <label for="parent1"
+                            >The minor has two living parents and one of them
+                            can sign the petition.</label
+                        >
+                        <input
+                            type="radio"
+                            id="parent2"
+                            name="none"
+                            value="none"
+                        />
+                        <label for="parent2"
+                            >The minor has no living parents, one living parent,
+                            or no living parents who can sign the
+                            petition.</label
+                        >
+                    </div>
 
-      <label>Question3: If under 18, does minor have 2 living parents who can sign, 1 parent who can sign, or no one who can sign?</label> <br>
-
-      <input type="radio" name="signparents" value="two">Two parents<br>
-      <input type="radio" name="signparents" value="one">One parents<br>
-      <input type="radio" name="signparents" value="zero">Zero parents<br>
-
-      
-      <input type="submit" value="submit" />
-  </form>
-</div>
-
-</body>
+                    <input type="submit" value="SUBMIT FORM" />
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
