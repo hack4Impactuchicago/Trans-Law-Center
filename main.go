@@ -2,33 +2,48 @@ package main
 
 import (
   "net/http"
-  "fmt"
-  "Trans-Law-Center/assets"
+  //"fmt"
+  "log"
+  "Trans-Law-Center/src"
 )
 
 func main() {
-    assets.SetupFormDB("formdb.db")
-    assets.SetupLoginDB("database.db")
+    //CREATE DB
+    src.SetupFormDB("formdb.db")
+    src.SetupLoginDB("database.db")
 
-    // Login Testing
-    assets.CreateUser("jliu08", "hellomynameisjames", 2)
+    ////FOR Login Testing
+    // src.CreateUser("jliu08", "hellomynameisjames", 2)
+    //
+    // loginSuccess, _ := src.Login("jliu08", "hellomynameisjames")
+    // if loginSuccess == 1 {
+    // fmt.Println("Login succeeded")
+    // } else {
+    // fmt.Println("Login failed or error occurred")
+    // }
+    // src.ChangePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
+    // loginSuccess, _ = src.Login("jliu08", "hellomynameisnotjames")
 
-    loginSuccess, _ := assets.Login("jliu08", "hellomynameisjames")
-    if loginSuccess == 1 {
-    fmt.Println("Login succeeded")
-    } else {
-    fmt.Println("Login failed or error occurred")
+    //FOR Testing STATIC Pages.
+    // fmt.Println("Loading server on :8080")
+    // fs := http.FileServer(http.Dir("html"))
+    // http.Handle("/", fs)
+
+    err := src.LoadPresetDBContent("formdb.db")
+    if err != nil {
+      log.Fatal("Loading Preset...: ", err)
     }
-    // assets.ChangePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
-    // loginSuccess, _ = assets.Login("jliu08", "hellomynameisnotjames")
 
+    //
 
-    fmt.Println("Loading server on :8080")
+    http.HandleFunc("/home/", src.ViewHandler)
+    http.HandleFunc("/results/", src.ResultsHandler)
 
-    http.HandleFunc("/", assets.Handler)
-    http.ListenAndServe(":8080", nil)
+    http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
+    http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 
-    // Dummy response testing
-
-
+    err = http.ListenAndServe(":8080", nil)
+    if err != nil {
+      log.Fatal("ListenAndServe: ", err)
+    }
 }
