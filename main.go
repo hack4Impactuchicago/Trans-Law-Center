@@ -34,8 +34,6 @@ func main() {
       log.Fatal("Loading Preset...: ", err)
     }
 
-    //
-
     http.HandleFunc("/home/", src.ViewHandler)
     http.HandleFunc("/results/", src.ResultsHandler)
 
