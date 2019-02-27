@@ -54,12 +54,11 @@
                             DONATE
                         </button>
                     </a>
-                    <a href="../login/">
-                        <button class="page-header-btn"
-                        id="page-header-btn-login">
-                            LOG IN
-                        </button>
-                    </a>
+                    <button onclick="document.getElementById('modal-login').style.display='block'"
+                    class="page-header-btn"
+                    id="page-header-btn-login">
+                        LOG IN
+                    </button>
                 </div>
             </div>
 
@@ -134,6 +133,30 @@
                     <input type="submit" value="SUBMIT FORM" />
                 </form>
             </div>
+        </div>
+
+        <div id="modal-login" class="modal">
+          <form class="modal-content animate" action="/action_page.php">
+
+            <div class="imgcontainer">
+              <span onclick="document.getElementById('modal-login').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+
+            <div class="modal-notice">
+              <p><span style='color: hsl(30, 100%, 60%);'>Note:</span> This is for Transgender Law Center Admins only - if you are here to use the form service, no need to log in!</p>
+            </div>
+
+            <div class="container">
+              <label class="modal-label" for="uname"><b>Username</b></label>
+              <input class="modal-input" type="text" placeholder="Enter Username" name="uname" required>
+
+              <label class="modal-label" for="psw"><b>Password</b></label>
+              <input  class="modal-input" type="password" placeholder="Enter Password" name="psw" required>
+
+              <button class="submit-login" type="submit">Login</button>
+            </div>
+
+          </form>
         </div>
     </body>
 </html>
