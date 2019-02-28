@@ -34,10 +34,9 @@ func main() {
       log.Fatal("Loading Preset...: ", err)
     }
 
-    //
-
     http.HandleFunc("/home/", src.ViewHandler)
     http.HandleFunc("/results/", src.ResultsHandler)
+    http.HandleFunc("/admin/", src.ResultsHandler)
 
     http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
     http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))

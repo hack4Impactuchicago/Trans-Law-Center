@@ -54,15 +54,20 @@
                             DONATE
                         </button>
                     </a>
+                    <button onclick="document.getElementById('modal-login').style.display='block'"
+                    class="page-header-btn"
+                    id="page-header-btn-login">
+                        LOG IN
+                    </button>
                 </div>
             </div>
 
             <div class="page-main">
-                <div class="page-title">
+                <div class="page-title centerable">
                     Petition form for legal name and/or gender change
                 </div>
 
-                <div>
+                <div class="centerable">
                     Transgender Law Center (TLC) and Hack4Impact-UChicago have
                     developed a tool to help you with the process of filling out
                     court forms to petition for a legal name and/or gender
@@ -71,7 +76,7 @@
                     out the forms, and sample filled-out forms. Anyone currently
                     living in California can use these forms and directions.
                 </div>
-                <div>
+                <div class="centerable">
                     For more information about the process of obtaining a name
                     and/or gender change and updating your California and
                     federal identification, please refer to TLC’s guide “ID
@@ -81,13 +86,13 @@
                         >https://transgenderlawcenter.org/resources/id/id-please</a
                     >.
                 </div>
-                <div>
+                <div class="centerable">
                     The information on this site should not be considered legal
                     advice. This site provides you with legal information but
                     does not seek to apply that information to your specific
                     situation.
                 </div>
-                <div>
+                <div class="centerable">
                     If you have a question about your specific legal situation,
                     feel free to contact Transgender Law Center’s Legal
                     Information Helpline at
@@ -97,7 +102,7 @@
                     and we’ll do our best to answer your question or point you
                     to resources that may be helpful.
                 </div>
-                <div>
+                <div class="centerable">
                     Please answer a few questions so we can provide you with
                     resources that will be most relevant to you.
                 </div>
@@ -125,108 +130,33 @@
                       {{end}}
                       </div>
                     {{end}}
-                    <!--
-                    <div class="page-main-form-group">
-                        <div
-                            class="page-main-form-group-question"
-                            id="page-main-form-group-question-first"
-                        >
-                            1) Are you seeking a name change court order, a
-                            gender change court order, or a joint name and
-                            gender change court order?
-                        </div>
-                        <input
-                            type="radio"
-                            id="change0"
-                            name="change"
-                            value="name"
-                        />
-                        <label for="change0">I am seeking a name change.</label>
-                        <input
-                            type="radio"
-                            id="change1"
-                            name="change"
-                            value="gender"
-                        />
-                        <label for="change1"
-                            >I am seeking a gender change.</label
-                        >
-                        <input
-                            type="radio"
-                            id="change2"
-                            name="change"
-                            value="both"
-                        />
-                        <label for="change2"
-                            >A joint name and gender change court order.</label
-                        >
-                    </div>
-
-                    <div
-                        class="page-main-form-group"
-                        id="page-main-form-group-2"
-                    >
-                        <div class="page-main-form-group-question">
-                            2) Is the person seeking a name and/or gender change
-                            court order under 18 years old, or 18 or over?
-                        </div>
-                        <input
-                            type="radio"
-                            id="age0"
-                            name="age"
-                            value="under"
-                        />
-                        <label for="age0">Under 18 years old.</label>
-                        <input type="radio" id="age1" name="age" value="over" />
-                        <label for="age1">18 years old or over.</label>
-                    </div>
-
-                    <div
-                        class="page-main-form-group"
-                        id="page-main-form-group-3"
-                    >
-                        <div
-                            class="page-main-form-group-question"
-                            id="page-main-form-group-question"
-                        >
-                            3) Please select the situation that applies to you.
-                        </div>
-                        <input
-                            type="radio"
-                            id="parent0"
-                            name="bothlivingboth"
-                            value="bothlivingboth"
-                        />
-                        <label for="parent0"
-                            >The minor has two living parents and they can both
-                            sign the petition.</label
-                        >
-                        <input
-                            type="radio"
-                            id="parent1"
-                            name="bothlivingone"
-                            value="bothlivingone"
-                        />
-                        <label for="parent1"
-                            >The minor has two living parents and one of them
-                            can sign the petition.</label
-                        >
-                        <input
-                            type="radio"
-                            id="parent2"
-                            name="none"
-                            value="none"
-                        />
-                        <label for="parent2"
-                            >The minor has no living parents, one living parent,
-                            or no living parents who can sign the
-                            petition.</label
-                        >
-                    </div>
-                    -->
                     <input type="submit" value="SUBMIT FORM" />
                 </form>
             </div>
+        </div>
+
+        <div id="modal-login" class="modal">
+          <form class="modal-content animate" action="../admin/">
+
+            <div class="imgcontainer">
+              <span onclick="document.getElementById('modal-login').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+
+            <div class="modal-notice">
+              <p><span style='color: hsl(30, 100%, 60%);'>Note:</span> This is for Transgender Law Center Admins only - if you are here to use the form service, no need to log in!</p>
+            </div>
+
+            <div class="container">
+              <label class="modal-label" for="uname"><b>Username</b></label>
+              <input class="modal-input" type="text" placeholder="Enter Username" name="uname" required>
+
+              <label class="modal-label" for="psw"><b>Password</b></label>
+              <input  class="modal-input" type="password" placeholder="Enter Password" name="psw" required>
+
+              <button class="submit-login" type="submit">Login</button>
+            </div>
+
+          </form>
         </div>
     </body>
 </html>
