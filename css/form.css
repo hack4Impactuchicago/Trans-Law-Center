@@ -141,6 +141,17 @@ body {
     padding: 0.75rem 1rem;
 }
 
+.admin-dash-title{
+  background-color: hsl(357, 82%, 39%);
+  padding: 3% 25% 3% 25%;
+  text-align: center;
+  height: 20px;
+  color: white;
+  letter-spacing: 0.75px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
 #panel {
   display: none;
 }
@@ -216,6 +227,85 @@ input[type='submit'] {
 
 input[type='submit']:hover {
     background-color: hsl(30, 70%, 50%);
+}
+
+/* For the Admin panel */
+
+.admin-button-wrapper {
+  display: grid;
+  grid-template-columns: auto;
+  grid-column-gap: 0.3rem;
+  align-content: start;
+  justify-items: end;
+  margin-top: 0.5rem;
+}
+
+.page-subtitle {
+    display: block;
+    background-color: #94b7bb;
+    color: white;
+    border-radius: 10px;
+    font-size: 1rem;
+    letter-spacing: 0.75px;
+    padding: 0.5rem 0.5rem;
+    z-index: 2;
+    margin-bottom: 0.7rem;
+}
+
+.question-inner-wrapper {
+    margin: 1rem 1rem 1rem 1rem;
+    display: flex;
+}
+
+.question-views-wrapper{
+    width: 50%;
+}
+
+.question-box {
+    background-color: white;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    border-radius: 10px;
+    display: flex;
+
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+
+    box-shadow: 5px 10px 25px;
+}
+
+.question-box:hover {
+    opacity: 0.8;
+}
+
+.question-text {
+    width: 40%;
+    font-size: smaller;
+    align-self: center;
+    text-align: center;
+}
+
+.question-wrapper {
+    background-color: #b7c9cc;
+    border-radius: 10px;
+    width: auto;
+    z-index: 1;
+}
+
+.answers-box{
+  background-color: #94b7bb;
+  border-radius: 0 10px 10px 0;
+  width: 60%;
+  text-align: center;
+  padding: 1rem 1rem 1rem 1rem;
+}
+
+.answer-text{
+  font-size: smaller;
 }
 
 /*  for the modal ... */
