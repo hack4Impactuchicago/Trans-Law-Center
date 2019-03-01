@@ -13,21 +13,7 @@ func main() {
     src.SetupLoginDB("database.db")
 
     ////FOR Login Testing
-    // src.CreateUser("jliu08", "hellomynameisjames", 2)
-    //
-    // loginSuccess, _ := src.Login("jliu08", "hellomynameisjames")
-    // if loginSuccess == 1 {
-    // fmt.Println("Login succeeded")
-    // } else {
-    // fmt.Println("Login failed or error occurred")
-    // }
-    // src.ChangePassword("jliu08", "hellomynameisnotjames", "hellomynameisjames")
-    // loginSuccess, _ = src.Login("jliu08", "hellomynameisnotjames")
-
-    //FOR Testing STATIC Pages.
-    // fmt.Println("Loading server on :8080")
-    // fs := http.FileServer(http.Dir("html"))
-    // http.Handle("/", fs)
+    src.CreateUser("testuser", "testpsw", 2)
 
     err := src.LoadPresetDBContent("formdb.db")
     if err != nil {
@@ -36,7 +22,7 @@ func main() {
 
     http.HandleFunc("/home/", src.ViewHandler)
     http.HandleFunc("/results/", src.ResultsHandler)
-    http.HandleFunc("/admin/", src.ResultsHandler)
+    http.HandleFunc("/admin/", src.AdminHandler)
 
     http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
     http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
