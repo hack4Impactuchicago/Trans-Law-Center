@@ -6,6 +6,13 @@ body {
     color: hsl(0, 0%, 28%);
 }
 
+body.admin {
+    display: grid;
+    grid-template-columns: 5% auto 5%;
+    font-family: 'PT Sans', sans-serif;
+    color: hsl(0, 0%, 28%);
+}
+
 @media screen and (max-width: 430px){
   body {
       display: block;
@@ -90,6 +97,17 @@ body {
     transition: all 0.15s ease;
 }
 
+.page-back-btn {
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 0.6rem 0.7rem;
+    width: 10%;
+    transition: all 0.15s ease;
+}
+
 @media screen and (max-width: 430px){
   .page-header-img {
       background-image: url("../images/tlc.jpg");
@@ -143,13 +161,13 @@ body {
 
 .admin-dash-title{
   background-color: hsl(357, 82%, 39%);
-  padding: 3% 25% 3% 25%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   text-align: center;
   height: 20px;
   color: white;
   letter-spacing: 0.75px;
   border-radius: 10px;
-  margin-bottom: 50px;
 }
 
 #panel {
@@ -231,13 +249,16 @@ input[type='submit']:hover {
 
 /* For the Admin panel */
 
-.admin-button-wrapper {
-  display: grid;
-  grid-template-columns: auto;
-  grid-column-gap: 0.3rem;
-  align-content: start;
-  justify-items: end;
-  margin-top: 0.5rem;
+.logout-button {
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 0.6rem 0.7rem;
+    transition: all 0.15s ease;
+    align-self: center;
+    align-items: right;
 }
 
 .page-subtitle {
@@ -255,10 +276,11 @@ input[type='submit']:hover {
 .question-inner-wrapper {
     margin: 1rem 1rem 1rem 1rem;
     display: flex;
+    /*justify-content: space-between;*/
 }
 
 .question-views-wrapper{
-    width: 50%;
+    flex-grow: 1;
 }
 
 .question-box {
@@ -275,15 +297,18 @@ input[type='submit']:hover {
     -webkit-transition:.5s;
     transition: .5s;
 
-    box-shadow: 5px 10px 25px;
+    box-shadow: 2px 4px 25px;
 }
 
 .question-box:hover {
     opacity: 0.8;
+    border-width: medium;
+    border-color: #94b7bb;
 }
 
 .question-text {
     width: 40%;
+    font-weight: 4px;
     font-size: smaller;
     align-self: center;
     text-align: center;
@@ -306,6 +331,22 @@ input[type='submit']:hover {
 
 .answer-text{
   font-size: smaller;
+}
+
+.question-editor-wrapper{
+  flex-grow: 1;
+  margin-left: 20px;
+  /*background-color: white;*/
+  border-radius: 10px;
+  /*box-shadow: 2px 4px 25px;
+  display: none;*/
+}
+
+.question-editor-box {
+  width: 100%;
+  border-radius: 10px;
+  height: inherit;
+  background-color: white;
 }
 
 /*  for the modal ... */
@@ -332,8 +373,11 @@ input[type=text], input[type=password] {
   padding: 0.6rem 0.7rem;
   transition: all 0.15s ease;
 }
+.submit-create{
+  background-color: hsl(357, 82%, 39%) !important;
+}
 
-.submit-login:hover {
+.submit-login:hover, .submit-create:hover{
   opacity: 0.8;
   cursor: pointer;
 }
@@ -350,7 +394,7 @@ input[type=text], input[type=password] {
 }
 
 .modal-notice {
-  margin-left: 7%;
+  margin-left: 4%;
   margin-right: 30%;
   font-size: smaller;
 }

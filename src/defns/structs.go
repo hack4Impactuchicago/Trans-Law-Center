@@ -30,3 +30,7 @@ type Question struct{
 type ViewPage struct {
 	Questions []Question
 }
+
+type AdminPage struct {
+  Questions []Question
+}

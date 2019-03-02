@@ -7,6 +7,60 @@ import(
   "Trans-Law-Center/src/defns"
 )
 
+func loadAdminPage()(*defns.AdminPage, error){
+  // Loading all rows of Questions from DB
+
+  page := defns.AdminPage{Questions: nil}
+
+  rowsQ, err := load_question_rows()
+  if err != nil{return &page, err}
+
+  var Questions []defns.Question
+  for rowsQ.Next() { //for each row within the datatable
+
+    var orderID int
+    var qid, typeQ, textQ string
+
+    if err = rowsQ.Scan(&qid, &orderID, &typeQ, &textQ); err != nil {
+      return &page, err
+    } else {
+
+      rowsA, err := load_answer_to_qid(qid)
+      if err != nil{return &page, err}
+
+      var AnsList []defns.Answer
+
+      for rowsA.Next(){
+
+        var aid, Qid, name, textQ string
+
+        if err = rowsA.Scan(&aid, &Qid, &name, &textQ); err != nil {
+        	return &page, err
+        }else{
+          AnsList = append(AnsList,
+            defns.Answer{AID: aid,
+              QuestionID: qid,
+              Name: name,
+              Text: textQ})
+        }
+      }
+
+      //TODO: Look into how slices are stored in Memory
+      Questions = append(Questions,
+        defns.Question{
+          QID: qid,
+          OrderID: orderID,
+          Type: typeQ,
+          Text: textQ,
+          Answers: AnsList})
+    }
+  }
+
+  //return the constructed page
+  page = defns.AdminPage{Questions: Questions}
+  return &page, nil
+}
+
 //function for loading the content for the form from the DB
 func loadViewPage()(*defns.ViewPage, error){
   // Loading all rows of Questions from DB
@@ -97,6 +151,24 @@ func loadResponsePage(r *http.Request)(*defns.ResponsePage, error){
   return &page, nil
 }
 
+func login(r *http.Request)(*bool, error){
+  //Parse through the request data
+  if err := r.ParseForm(); err != nil {
+    return nil, err
+  }
+
+  //Login-Success
+  var auth bool
+  if success, _ := Login(r.FormValue("uname"), r.FormValue("psw")); success == 1{
+    auth = true
+  } else {
+    auth = false
+  }
+
+  return &auth, nil
+
+}
+
 func ViewHandler(w http.ResponseWriter, r *http.Request){
   p, errload := loadViewPage()
   if errload != nil{
@@ -106,6 +178,22 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
   t, _ := template.ParseFiles("html/home.html")
   if err := t.Execute(w, *p); err != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
+  }
+}
+
+func AdminHandler(w http.ResponseWriter, r *http.Request){
+  loginSuccess, err := login(r);
+  if *loginSuccess == true && err == nil{
+    p, err := loadAdminPage();
+    if err != nil{http.Error(w, err.Error(), http.StatusInternalServerError)}
+    t, _ := template.ParseFiles("html/admin.html")
+    if err := t.Execute(w, p); err != nil{http.Error(w, err.Error(), http.StatusInternalServerError)}
+  }else{
+    if err != nil{
+      http.Error(w, err.Error(), http.StatusInternalServerError)
+    }else if *loginSuccess == false{
+      http.Redirect(w, r, "/home/", http.StatusPermanentRedirect)
+    }
   }
 }
 
