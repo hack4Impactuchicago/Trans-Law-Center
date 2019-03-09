@@ -174,7 +174,6 @@ func ViewHandler(w http.ResponseWriter, r *http.Request){
   if errload != nil{
     http.Error(w, errload.Error(), http.StatusInternalServerError)
   }
-
   t, _ := template.ParseFiles("html/home.html")
   if err := t.Execute(w, *p); err != nil{
     http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -192,7 +191,7 @@ func AdminHandler(w http.ResponseWriter, r *http.Request){
     if err != nil{
       http.Error(w, err.Error(), http.StatusInternalServerError)
     }else if *loginSuccess == false{
-      http.Redirect(w, r, "/home/", http.StatusPermanentRedirect)
+      http.Redirect(w, r, "/home/", 401)
     }
   }
 }
