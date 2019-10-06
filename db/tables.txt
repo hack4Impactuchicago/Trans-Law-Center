@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS Questions(
+    Id TEXT,
+    DispOrder INT,
+    Type TEXT,
+    Text TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Answers(
+    Id TEXT,
+    QuestionId TEXT,
+    Name TEXT,
+    Text TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Links(
+    Id TEXT,
+    Url TEXT,
+    Description TEXT,
+    Type TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Users(
+    Username TEXT,
+    Password TEXT,
+    AdminLevel INT
+);

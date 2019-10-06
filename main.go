@@ -2,9 +2,8 @@ package main
 
 import (
   "net/http"
-  //"fmt"
   "log"
-  "Trans-Law-Center/src"
+  "Trans-Law-Center/api/src"
 )
 
 func main() {
@@ -22,15 +21,14 @@ func main() {
     }
 
     //VIEWS
-
+    http.HandleFunc("/", src.ViewHandler)
     http.HandleFunc("/home/", src.ViewHandler)
     http.HandleFunc("/results/", src.ResultsHandler)
     http.HandleFunc("/admin/", src.AdminHandler)
 
     //CONTENT
-
-    http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
-    http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
+    http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("ui/css"))))
+    http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("ui/images"))))
 
     //SERVER
 
