@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Transgender Law Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="../css/form.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link
+      href="https://fonts.googleapis.com/css?family=PT+Sans"
+      rel="stylesheet"
+  />
+  <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+  />
+
+  <!--scripts-->
+</head>
+
+<body>
+  <div class="page-content">
+      <div class="page-header">
+          <a
+              href="https://transgenderlawcenter.org/"
+              class="page-header-img"
+          ></a>
+          <div class="page-header-buttons">
+              <a href="https://transgenderlawcenter.org/signup">
+                  <button
+                      class="page-header-btn"
+                      id="page-header-btn-signup"
+                  >
+                      SIGN UP!
+                      <i class="fas fa-envelope"></i>
+                  </button>
+              </a>
+              <a href="https://transgenderlawcenter.org/donate">
+                  <button
+                      class="page-header-btn"
+                      id="page-header-btn-donate"
+                  >
+                      DONATE
+                  </button>
+              </a>
+          </div>
+      </div>
+
+      <div class="page-main">
+          <a href="../home/">
+            <button class="page-back-btn"
+                id="page-header-btn-signup">
+                BACK
+            </button>
+          </a>
+          <div class="page-title centerable">
+              Petition responses for legal name and/or gender change
+          </div>
+          <div class="centerable">
+              For more information about the process of obtaining a name
+              and/or gender change and updating your California and
+              federal identification, please refer to TLC’s guide “ID
+              Please!” available at
+              <a
+                  href="https://transgenderlawcenter.org/resources/id/id-please"
+                  >https://transgenderlawcenter.org/resources/id/id-please</a
+              >.
+          </div>
+          <div class="centerable">
+              The information on this site should not be considered legal
+              advice. This site provides you with legal information but
+              does not seek to apply that information to your specific
+              situation.
+          </div>
+          <div class="centerable">
+              If you have a question about your specific legal situation,
+              feel free to contact Transgender Law Center’s Legal
+              Information Helpline at
+              <a href="www.transgenderlawcenter.org/legalinfo"
+                  >www.transgenderlawcenter.org/legalinfo
+              </a>
+              and we’ll do our best to answer your question or point you
+              to resources that may be helpful.
+          </div>
+          <div class="page-main-links">
+            <div class="description">
+            </div>
+            <div class="forms-by-hand">
+            <h4 class="link-type">If you’d like to print out and fill out the forms by hand:</h3>
+            {{range .Links}}
+              {{if eq .Type "hand"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+            <div class="forms-online-hand">
+            <h4 class="link-type">If you’d like to fill out the forms online:</h3>
+            {{range .Links}}
+              {{if eq .Type "online"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+            <div class="forms-individual">
+            <h4 class="link-type">Links to the individual forms:</h3>
+            {{range .Links}}
+              {{if eq .Type "individual"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+            <div class="fee-waiver">
+            <h4 class="link-type">If you want to request a fee waiver for the filling fee:</h3>
+            {{range .Links}}
+              {{if eq .Type "waiver"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+            <div class="accommodations">
+            <h4 class="link-type">If you want to request accommodations for disabilities:</h3>
+            {{range .Links}}
+              {{if eq .Type "accomm"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+            <div class="supreme-court">
+            {{range .Links}}
+              {{if eq .Type "court"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+            <div class="instructions">
+            {{range .Links}}
+              {{if eq .Type "instructions"}}
+              <a class="links-displayed" href={{.URL}}>{{.Description}}</a>
+              {{end}}
+            {{end}}
+            </div>
+          </div>
+      </div>
+  </div>
+
+</body>
+</html>
